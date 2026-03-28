@@ -1309,16 +1309,27 @@ async function fetchFromSheets() {
   }
 }
 
-async function sendDataToSheets(type, data) {
-  // if (APPSCRIPT_URL === "https://script.google.com/macros/s/AKfycbyNs90cBolHOzn3hhjgogmk6_vRJKZt7xviOKxUnKUE3gFq4W7FlpVj6MHmNnLlopmi6w/exec") return;
+async function sendDataToSheets(actionType, payloadData) {
   try {
-    // Mode 'no-cors' membantu melewati blocking CORS saat POST standar
+    // 1. Sesuaikan kata kunci agar persis dibaca oleh kode Google Apps Script (.gs) Anda
+    let typeGS = actionType;
+    if (actionType === 'addOrder') typeGS = 'order';
+    if (actionType === 'addFeedback') typeGS = 'feedback';
+
+    // 2. Masukkan kata kunci 'type' tersebut ke dalam data pesanan
+    let finalData = payloadData;
+    finalData.type = typeGS;
+
+    // 3. Kirim ke Google Sheets dengan tipe 'text/plain' agar browser TIDAK memblokir (CORS)
     await fetch(APPSCRIPT_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: type, data: data })
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(finalData)
     });
+    
+    console.log("Data berhasil dikirim ke Sheets!");
   } catch(e) {
     console.log("Error sending to sheets", e);
   }
