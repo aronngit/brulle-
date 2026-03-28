@@ -1288,10 +1288,10 @@
 // GOOGLE APPS SCRIPT INTEGRATION
 // ============================================================
 // ⚠️ GANTI STRING DI BAWAH INI DENGAN URL DEPLOYMENT GOOGLE APPS SCRIPT ANDA
-const APPSCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvhd4ISH_FMHQLbbBCtfgnt6H9BqhrvXgqM7xqsSagEvHSVH74bIG5D-ikbLNhfwo6lQ/exec";
+const APPSCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJITg2u2XI1-_9nMbSCmag1hCSdnDnDvjaMzlOuWy9AK48j4rvDTnDoblN-ENgUjwJ_A/exec";
 
 async function fetchFromSheets() {
-  if (APPSCRIPT_URL === "https://script.google.com/macros/s/AKfycbwvhd4ISH_FMHQLbbBCtfgnt6H9BqhrvXgqM7xqsSagEvHSVH74bIG5D-ikbLNhfwo6lQ/exec") return;
+  if (APPSCRIPT_URL === "https://script.google.com/macros/s/AKfycbyJITg2u2XI1-_9nMbSCmag1hCSdnDnDvjaMzlOuWy9AK48j4rvDTnDoblN-ENgUjwJ_A/exec") return;
   try {
     const response = await fetch(APPSCRIPT_URL + "?action=getData");
     const result = await response.json();
