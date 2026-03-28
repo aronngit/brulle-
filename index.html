@@ -1291,7 +1291,7 @@
 const APPSCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNs90cBolHOzn3hhjgogmk6_vRJKZt7xviOKxUnKUE3gFq4W7FlpVj6MHmNnLlopmi6w/exec";
 
 async function fetchFromSheets() {
-  if (APPSCRIPT_URL === "https://script.google.com/macros/s/AKfycbyNs90cBolHOzn3hhjgogmk6_vRJKZt7xviOKxUnKUE3gFq4W7FlpVj6MHmNnLlopmi6w/exec") return;
+  // if (APPSCRIPT_URL === "https://script.google.com/macros/s/AKfycbyNs90cBolHOzn3hhjgogmk6_vRJKZt7xviOKxUnKUE3gFq4W7FlpVj6MHmNnLlopmi6w/exec") return;
   try {
     const response = await fetch(APPSCRIPT_URL + "?action=getData");
     const result = await response.json();
@@ -1310,7 +1310,7 @@ async function fetchFromSheets() {
 }
 
 async function sendDataToSheets(type, data) {
-  if (APPSCRIPT_URL === "https://script.google.com/macros/s/AKfycbyNs90cBolHOzn3hhjgogmk6_vRJKZt7xviOKxUnKUE3gFq4W7FlpVj6MHmNnLlopmi6w/exec") return;
+  // if (APPSCRIPT_URL === "https://script.google.com/macros/s/AKfycbyNs90cBolHOzn3hhjgogmk6_vRJKZt7xviOKxUnKUE3gFq4W7FlpVj6MHmNnLlopmi6w/exec") return;
   try {
     // Mode 'no-cors' membantu melewati blocking CORS saat POST standar
     await fetch(APPSCRIPT_URL, {
