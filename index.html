@@ -1,4 +1,3 @@
-<!-- https://script.google.com/macros/s/AKfycbwvp1Nh-dgocLJslXAcbiGNkvfkYvLBn9vZtnSvhJj8mCcx9sRSCA7_PKQLDgC3ELp89A/exec -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -978,29 +977,24 @@
 </head>
 <body>
 
-<!-- ============ QUOTA BANNER ============ -->
 <div id="quota-banner" class="hidden">
   <span>Beberapa logo gagal dimuat</span>
   <button onclick="reloadLogos()">Coba Lagi</button>
 </div>
 
-<!-- ============================================================
-     LOGIN PAGE
-============================================================ -->
 <div id="login-page" class="center-page">
   <div class="login-card anim-fadeup">
     <div class="logo-row">
       <div class="logo-circle yellow logo-glow">
-        <img id="login-logo-brulee" src="https://picsum.photos/seed/brulee-bomb-logo-accurate/400/400" alt="Brulee Bomb Logo">
+        <img id="login-logo-brulee" src="logo bom.jpeg" alt="Brulee Bomb Logo">
       </div>
       <div class="logo-circle white">
-        <img id="login-logo-hikari" src="https://picsum.photos/seed/hikari-sushi-logo-accurate/400/400" alt="Hikari Sushi Logo">
+        <img id="login-logo-hikari" src="logosusi.jpeg" alt="Hikari Sushi Logo">
       </div>
     </div>
     <h1 style="font-size:26px;font-weight:900;margin-bottom:8px;">Hikari Sushi x Brulee Bomb</h1>
     <p style="color:#78716c;margin-bottom:32px;font-weight:600;">Please select your login type</p>
 
-    <!-- Selection view -->
     <div id="login-selection">
       <div style="display:flex;flex-direction:column;gap:12px;">
         <button class="btn-primary" onclick="loginAsCustomer()">
@@ -1013,7 +1007,6 @@
         </button>
       </div>
 
-      <!-- Recent Activity Preview -->
       <div class="recent-activity">
         <div class="recent-title">📋 Recent Activity</div>
         <div id="recent-activity-list">
@@ -1022,7 +1015,6 @@
       </div>
     </div>
 
-    <!-- Admin login view -->
     <div id="login-admin" class="hidden">
       <div style="text-align:left;">
         <label style="font-size:10px;font-weight:900;color:#a8a29e;text-transform:uppercase;letter-spacing:0.12em;display:block;margin-bottom:8px;">Admin Password</label>
@@ -1040,40 +1032,33 @@
   </div>
 </div>
 
-<!-- ============================================================
-     ORDER PAGE
-============================================================ -->
 <div id="order-page" class="page-wrapper hidden">
   <div class="page-inner">
 
-    <!-- Header -->
     <div class="header-section">
       <div class="flame-bg">
         <svg class="flame-svg-1" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-5 5.5-5 10a5 5 0 0 0 10 0c0-4.5-5-10-5-10zm0 14a2 2 0 0 1-2-2c0-2 2-5 2-5s2 3 2 5a2 2 0 0 1-2 2z"/></svg>
         <svg class="flame-svg-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-5 5.5-5 10a5 5 0 0 0 10 0c0-4.5-5-10-5-10zm0 14a2 2 0 0 1-2-2c0-2 2-5 2-5s2 3 2 5a2 2 0 0 1-2 2z"/></svg>
       </div>
 
-      <!-- Side logos left -->
       <div class="side-logos-left">
         <div class="side-logo-box">
-          <img id="istts-logo" src="https://picsum.photos/seed/manajemen-bisnis-digital-istts/400/400" alt="ISTTS Logo">
+          <img id="istts-logo" src="mbdlogo.jpeg" alt="ISTTS Logo">
         </div>
         <div class="side-logo-box">
-          <img id="aicampus-logo" src="https://picsum.photos/seed/stts-ai-campus-mascot/400/400" alt="AI Campus Logo">
+          <img id="aicampus-logo" src="sttslogo.jpeg" alt="AI Campus Logo">
         </div>
       </div>
 
-      <!-- Main logos -->
       <div class="header-logos" style="position:relative;z-index:2;">
         <div class="header-logo-circle yellow logo-glow">
-          <img id="header-logo-brulee" src="https://picsum.photos/seed/brulee-bomb-logo-accurate/400/400" alt="Brulee Bomb Logo">
+          <img id="header-logo-brulee" src="logo bom.jpeg" alt="Brulee Bomb Logo">
         </div>
         <div class="header-logo-circle white">
-          <img id="header-logo-hikari" src="https://picsum.photos/seed/hikari-sushi-logo-accurate/400/400" alt="Hikari Sushi Logo">
+          <img id="header-logo-hikari" src="logosusi.jpeg" alt="Hikari Sushi Logo">
         </div>
       </div>
 
-      <!-- Right actions -->
       <div class="side-actions-right">
         <button class="icon-btn" title="Logout" onclick="doLogout()">
           <svg viewBox="0 0 24 24" fill="none" stroke="#57534e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -1084,10 +1069,9 @@
       </div>
     </div>
 
-    <!-- Product card -->
     <div class="product-card glass-card anim-fadeup">
       <div class="product-img-wrap">
-        <img id="product-img" src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=800&q=80" alt="Product">
+        <img id="product-img" src="brulle.png" alt="Product">
         <div class="product-img-overlay"></div>
         <div class="badge-signature">
           <svg viewBox="0 0 24 24" fill="white" style="width:12px;height:12px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1096,7 +1080,6 @@
       </div>
 
       <div class="product-body">
-        <!-- Menu tabs -->
         <div>
           <div class="section-label">Pilih Menu</div>
           <div class="menu-tabs">
@@ -1106,7 +1089,6 @@
           </div>
         </div>
 
-        <!-- Title & price -->
         <div class="product-title-row">
           <div>
             <h2 id="menu-title">Brulee Bomb</h2>
@@ -1118,7 +1100,6 @@
           </div>
         </div>
 
-        <!-- Customer name -->
         <div style="margin-bottom:24px;">
           <div class="section-label">Nama Customer</div>
           <div class="input-wrap">
@@ -1127,15 +1108,12 @@
           </div>
         </div>
 
-        <!-- Sauce options -->
         <div style="margin-bottom:32px;">
           <div class="section-label">Pilih Saus</div>
           <div class="sauce-grid" id="sauce-grid">
-            <!-- Filled by JS -->
-          </div>
+            </div>
         </div>
 
-        <!-- Quantity -->
         <div>
           <div class="quantity-row">
             <div class="section-label" style="margin-bottom:0;">Jumlah Pesanan</div>
@@ -1160,14 +1138,12 @@
       </div>
     </div>
 
-    <!-- Pay button -->
     <div class="payment-section">
       <button class="btn-secondary" id="pay-btn" onclick="handleOrder()">
         <span id="pay-btn-text">Pay Order - Rp 10.000</span>
       </button>
     </div>
 
-    <!-- Live Orders -->
     <div class="live-section">
       <div class="live-card">
         <div class="live-header">
@@ -1187,7 +1163,6 @@
       </div>
     </div>
 
-    <!-- Feedback -->
     <div class="feedback-section">
       <div class="feedback-card">
         <div class="live-title" style="margin-bottom:16px;">
@@ -1204,9 +1179,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     SUCCESS PAGE
-============================================================ -->
 <div id="success-page" class="center-page hidden">
   <div class="success-card anim-scalein">
     <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -1226,9 +1198,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     ADMIN PAGE
-============================================================ -->
 <div id="admin-page" class="page-wrapper hidden">
   <div class="page-inner" style="max-width:430px;margin:0 auto;">
     <div id="admin-page-inner" style="padding:0 24px 80px;">
@@ -1243,7 +1212,6 @@
         <button class="logout-btn" onclick="doLogout()">Logout</button>
       </div>
 
-      <!-- Control card -->
       <div class="admin-control-card">
         <div class="control-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--primary)"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -1272,29 +1240,23 @@
         <button class="cache-btn" onclick="clearCache()">Clear Cache & Retry</button>
       </div>
 
-      <!-- Tabs -->
       <div class="admin-tabs">
         <button class="admin-tab active-today" id="tab-today" onclick="setAdminTab('orders')">Today</button>
         <button class="admin-tab" id="tab-history" onclick="setAdminTab('history')">History</button>
         <button class="admin-tab" id="tab-feedback" onclick="setAdminTab('feedback')">Feedback</button>
       </div>
 
-      <!-- Date filter (history only) -->
       <div class="date-filter-card hidden" id="date-filter-card">
         <label style="font-size:11px;font-weight:700;color:#a8a29e;display:block;margin-bottom:8px;">Filter by Date</label>
         <input type="date" id="admin-date-filter" class="date-input" onchange="renderAdminList()">
         <button class="clear-filter-btn" onclick="clearDateFilter()">Clear Filter</button>
       </div>
 
-      <!-- Admin list -->
       <div id="admin-list"></div>
     </div>
   </div>
 </div>
 
-<!-- ============================================================
-     BRAND MODAL
-============================================================ -->
 <div id="brand-modal" class="modal-overlay hidden" onclick="closeBrandModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <h2>Our Brand Story</h2>
@@ -1323,6 +1285,46 @@
 
 <script>
 // ============================================================
+// GOOGLE APPS SCRIPT INTEGRATION
+// ============================================================
+// ⚠️ GANTI STRING DI BAWAH INI DENGAN URL DEPLOYMENT GOOGLE APPS SCRIPT ANDA
+const APPSCRIPT_URL = "MASUKKAN_URL_WEB_APP_ANDA_DISINI";
+
+async function fetchFromSheets() {
+  if (APPSCRIPT_URL === "MASUKKAN_URL_WEB_APP_ANDA_DISINI") return;
+  try {
+    const response = await fetch(APPSCRIPT_URL + "?action=getData");
+    const result = await response.json();
+    if(result.orders) {
+        state.purchaseHistory = result.orders.map(o => ({...o, date: new Date(o.date)}));
+    }
+    if(result.feedbacks) {
+        state.feedbacks = result.feedbacks.map(f => ({...f, date: new Date(f.date)}));
+    }
+    renderLiveOrders();
+    renderLoginActivity();
+    if(state.userRole === 'admin') renderAdminPage();
+  } catch(e) {
+    console.log("Gagal memuat dari sheets, menggunakan data lokal.", e);
+  }
+}
+
+async function sendDataToSheets(type, data) {
+  if (APPSCRIPT_URL === "MASUKKAN_URL_WEB_APP_ANDA_DISINI") return;
+  try {
+    // Mode 'no-cors' membantu melewati blocking CORS saat POST standar
+    await fetch(APPSCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: type, data: data })
+    });
+  } catch(e) {
+    console.log("Error sending to sheets", e);
+  }
+}
+
+// ============================================================
 // STATE
 // ============================================================
 let state = {
@@ -1338,12 +1340,12 @@ let state = {
   adminDateFilter: '',
   purchaseHistory: [],
   feedbacks: [],
-  // logos (using placeholders by default - same as fallback in original)
-  logoImage: 'https://picsum.photos/seed/brulee-bomb-logo-accurate/400/400',
-  hikariLogo: 'https://picsum.photos/seed/hikari-sushi-logo-accurate/400/400',
-  aiCampusLogo: 'https://picsum.photos/seed/stts-ai-campus-mascot/400/400',
-  isttsLogo: 'https://picsum.photos/seed/manajemen-bisnis-digital-istts/400/400',
-  productImage: 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=800&q=80',
+  // Menggunakan nama file gambar yang telah dikirimkan
+  logoImage: 'logo bom.jpeg',
+  hikariLogo: 'logosusi.jpeg',
+  aiCampusLogo: 'sttslogo.jpeg',
+  isttsLogo: 'mbdlogo.jpeg',
+  productImage: 'brulle.png',
 };
 
 const MENU_PRICES = { 'Brulee Bomb': 10000, 'Hikari Sushi': 8000, 'Bundle': 18000 };
@@ -1358,13 +1360,13 @@ const MENU_SUBTITLES = {
   'Bundle': '1 Porsi Brulee Bomb (5 pcs) + 1 Porsi Hikari Sushi (6 pcs)'
 };
 const PRODUCT_IMAGES = {
-  'Brulee Bomb': 'https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=800&q=80',
-  'Hikari Sushi': 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800&q=80',
-  'Bundle': 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=800&q=80',
+  'Brulee Bomb': 'brulle.png',
+  'Hikari Sushi': 'sushi.png',
+  'Bundle': 'combo.png',
 };
 
 // ============================================================
-// LOCAL STORAGE (replaces Socket.IO for static hosting)
+// LOCAL STORAGE (Sebagai fallback/backup jika offline)
 // ============================================================
 function saveToStorage() {
   try {
@@ -1588,7 +1590,11 @@ function handleOrder() {
     localStorage.setItem('bb_stock_' + todayStr(), state.dailyStock);
   }
 
+  // Backup simpan lokal
   saveToStorage();
+  
+  // POST KE GOOGLE SHEETS
+  sendDataToSheets('addOrder', order);
 
   // Show success
   state.customerName = name;
@@ -1671,7 +1677,13 @@ function submitFeedback() {
     rating: state.feedbackRating
   };
   state.feedbacks.unshift(fb);
+  
+  // Backup Lokal
   saveToStorage();
+  
+  // POST KE GOOGLE SHEETS
+  sendDataToSheets('addFeedback', fb);
+  
   document.getElementById('feedback-msg').value = '';
   state.feedbackRating = 5;
   renderFeedbackStars();
@@ -1863,6 +1875,9 @@ function escHtml(str) {
 // INIT
 // ============================================================
 loadFromStorage();
+// Mengambil data dari Google Sheets saat aplikasi pertama kali dimuat
+fetchFromSheets(); 
+
 renderLoginActivity();
 
 // Login logo images
