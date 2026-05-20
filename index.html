@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Brulee Bomb x Hikari Sushi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Bangers&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --primary: #f39c12; /* Diubah ke Oranye */
-      --secondary: #e67e22; /* Diubah menghindari merah kusam */
+      --primary: #f39c12; /* Warna diubah ke Oranye */
+      --secondary: #e67e22; /* Oranye gelap, menghilangkan nuansa merah */
       --accent: #f1c40f;
-      --bg-cream: #fff5e6;
+      --bg-cream: #fffaf0; /* Cream yang lebih cerah, tidak abu-abu */
       --text-main: #1c1917;
       --radius-xl: 3rem;
       --radius-lg: 2rem;
@@ -37,7 +37,7 @@
     }
     .page-inner {
       width: 100%;
-      max-width: 480px;
+      max-width: 480px; /* Lebih responsif untuk mobile/tablet */
       min-height: 100vh;
       background: var(--bg-cream);
       position: relative;
@@ -52,24 +52,17 @@
       min-height: 100vh;
       padding: 24px;
       background: var(--bg-cream);
-      width: 100%;
     }
 
     /* ---- UTILITIES ---- */
     .hidden { display: none !important; }
-    .glass-card {
-      background: rgba(255,255,255,0.98);
-      backdrop-filter: blur(8px);
-    }
-    .logo-glow {
-      filter: drop-shadow(0 0 20px rgba(243,156,18,0.4));
-    }
+    .glass-card { background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); }
+    .logo-glow { filter: drop-shadow(0 0 20px rgba(243,156,18,0.4)); }
     .text-primary { color: var(--primary); }
     .text-secondary { color: var(--secondary); }
-    .font-black { font-weight: 900; }
 
     /* ---- BUTTONS ---- */
-    .btn-primary {
+    .btn-primary, .btn-secondary {
       width: 100%;
       background: var(--primary);
       color: #fff;
@@ -88,38 +81,11 @@
       box-shadow: 0 10px 30px rgba(243,156,18,0.3);
       transition: all 0.15s;
     }
-    .btn-primary:hover { opacity: 0.9; }
-    .btn-primary:active { transform: scale(0.97); }
-    
-    .btn-secondary {
-      width: 100%;
-      background: var(--primary); /* Mengganti warna merah menjadi oranye */
-      color: #fff;
-      font-weight: 900;
-      font-size: 15px;
-      padding: 18px;
-      border-radius: var(--radius-lg);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow: 0 10px 30px rgba(243,156,18,0.2);
-      transition: all 0.15s;
+    .btn-primary:hover, .btn-secondary:hover { opacity: 0.9; }
+    .btn-primary:active, .btn-secondary:active { transform: scale(0.97); }
+    .btn-primary:disabled, .btn-secondary:disabled {
+      background: #d6d3d1; color: #a8a29e; cursor: not-allowed; box-shadow: none; transform: none;
     }
-    .btn-secondary:hover { opacity: 0.9; }
-    .btn-secondary:active { transform: scale(0.97); }
-    .btn-secondary:disabled, .btn-primary:disabled {
-      background: #d6d3d1;
-      color: #a8a29e;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
-    }
-    
     .btn-outline {
       width: 100%;
       background: #fff;
@@ -137,7 +103,7 @@
       letter-spacing: 0.04em;
       transition: all 0.15s;
     }
-    .btn-outline:hover { background: #fff5e6; }
+    .btn-outline:hover { background: #fffaf0; }
 
     /* ---- INPUTS ---- */
     .input-field {
@@ -153,601 +119,964 @@
       outline: none;
       transition: border-color 0.2s;
     }
-    .input-field:focus { border-color: var(--primary); }
+    .input-field:focus { border-color: var(--secondary); }
     .input-wrap { position: relative; }
     .input-icon {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 20px;
-      height: 20px;
-      color: #a8a29e;
-      pointer-events: none;
-    }
-
-    /* ---- CARDS ---- */
-    .card {
-      background: #fff;
-      border-radius: 2rem;
-      border: 1px solid #f5f5f4;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      width: 20px; height: 20px; color: #a8a29e; pointer-events: none;
     }
 
     /* ---- SECTION LABELS ---- */
     .section-label {
-      font-size: 12px;
-      font-weight: 900;
-      color: #a8a29e;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
+      font-size: 10px; font-weight: 900; color: #a8a29e; text-transform: uppercase;
+      letter-spacing: 0.15em; display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
     }
     .section-label::before {
-      content: '';
-      display: block;
-      width: 40px;
-      height: 3px;
-      background: var(--accent);
-      border-radius: 9999px;
+      content: ''; display: block; width: 40px; height: 3px; background: var(--accent); border-radius: 9999px;
     }
 
     /* ---- ANIMATIONS ---- */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes scaleIn {
-      from { opacity: 0; transform: scale(0.85); }
-      to   { opacity: 1; transform: scale(1); }
-    }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
     .anim-fadeup { animation: fadeInUp 0.4s ease both; }
     .anim-scalein { animation: scaleIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both; }
+    .pulse { animation: pulse 2s ease-in-out infinite; }
+
+    /* ---- NOTIFICATION BANNER ---- */
+    #quota-banner {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 100;
+      background: #ef4444; color: #fff; padding: 10px 20px; border-radius: 9999px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px;
+      font-size: 13px; font-weight: 600; white-space: nowrap;
+    }
+    #quota-banner button { background: #fff; color: #ef4444; border: none; border-radius: 9999px; padding: 4px 12px; font-weight: 700; cursor: pointer; }
 
     /* ===============================
        LOGIN PAGE
     ================================ */
     #login-page .login-card {
-      width: 100%;
-      max-width: 400px;
-      background: #fff;
-      border-radius: var(--radius-xl);
-      padding: 40px 32px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-      border: 4px solid #fff;
-      text-align: center;
+      width: 100%; max-width: 400px; background: #fff; border-radius: var(--radius-xl);
+      padding: 40px 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); border: 4px solid #fff; text-align: center;
     }
-    .logo-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .logo-circle {
-      width: 80px;
-      height: 80px;
-      border-radius: 9999px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .logo-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .logo-row { display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .logo-circle { width: 80px; height: 80px; border-radius: 9999px; overflow: hidden; display: flex; align-items: center; justify-content: center;}
+    .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
     .logo-circle.yellow { background: #FFEC3D; }
     .logo-circle.white { background: #fff; border: 2px solid #e7e5e4; }
+
+    /* BRAND DETAIL CARD DI HALAMAN DEPAN */
+    .brand-detail-box {
+      margin-top: 32px; padding: 20px; background: #fffaf0; border-radius: 1.5rem;
+      border: 2px solid var(--primary); text-align: left;
+    }
+    .brand-detail-title { font-size: 14px; font-weight: 900; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; }
 
     /* ===============================
        ORDER PAGE HEADER
     ================================ */
-    #order-page .header-section {
-      padding: 48px 24px 24px;
-      position: relative;
-      text-align: center;
-    }
-    .header-logos {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      position: relative;
-      z-index: 2;
-    }
-    .header-logo-circle {
-      width: 96px;
-      height: 96px;
-      border-radius: 9999px;
-      overflow: hidden;
-    }
+    #order-page .header-section { padding: 48px 24px 24px; position: relative; text-align: center; }
+    .header-logos { display: flex; justify-content: center; gap: 16px; position: relative; z-index: 2; }
+    .header-logo-circle { width: 96px; height: 96px; border-radius: 9999px; overflow: hidden; }
     .header-logo-circle.yellow { background: #FFEC3D; }
     .header-logo-circle.yellow img { width:100%; height:100%; object-fit: cover; }
     .header-logo-circle.white { background: #fff; border: 2px solid #e7e5e4; }
     .header-logo-circle.white img { width:100%; height:100%; object-fit:cover; }
 
-    /* Logo AI Campus ISTTS & MBD Dibesarkan */
-    .side-logos-left {
-      position: absolute;
-      top: 24px;
-      left: 24px;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .side-logos-left { position: absolute; top: 40px; left: 24px; z-index: 10; display: flex; flex-direction: column; gap: 10px; }
+    /* LOGO AI CAMPUS & MBD DIBESARKAN */
     .side-logo-box {
-      width: 64px; /* Ukuran dibesarkan */
-      height: 64px;
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      border: 2px solid var(--primary);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 64px; height: 64px; background: #fff; border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1); border: 1px solid #e7e5e4; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; padding: 4px;
     }
-    .side-logo-box img { width:100%; height:100%; object-fit: contain; padding: 4px; }
+    .side-logo-box img { width:100%; height:100%; object-fit: contain; }
 
-    .side-actions-right {
-      position: absolute;
-      top: 48px;
-      right: 24px;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .side-actions-right { position: absolute; top: 48px; right: 24px; z-index: 10; display: flex; flex-direction: column; gap: 8px; }
     .icon-btn {
-      width: 44px;
-      height: 44px;
-      background: #fff;
-      border-radius: 9999px;
-      border: 2px solid var(--primary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 38px; height: 38px; background: rgba(255,255,255,0.85); border-radius: 9999px;
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .icon-btn svg { width: 22px; height: 22px; color: var(--primary); }
+    .icon-btn svg { width: 20px; height: 20px; color: var(--primary); }
 
     /* ===============================
-       PRODUCT CARD
+       PRODUCT CARD & CART
     ================================ */
-    .product-card {
-      margin: 0 20px 24px;
-      border-radius: var(--radius-xl);
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
-      border: 4px solid #fff;
-      background: #fff;
-    }
-    .product-img-wrap {
-      position: relative;
-      height: 240px;
-      overflow: hidden;
-    }
-    #product-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .product-body { padding: 24px; }
+    .product-card { margin: 0 20px 24px; border-radius: var(--radius-xl); overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.12); border: 4px solid #fff; background: #fff; }
+    .product-img-wrap { position: relative; height: 260px; overflow: hidden; }
+    #product-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
+    .product-body { padding: 32px; }
 
-    /* Menu tabs */
-    .menu-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 24px;
-    }
+    .menu-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 24px; }
     .menu-tab {
-      padding: 12px 8px;
-      border-radius: 1rem;
-      border: 2px solid #e7e5e4;
-      background: #fff;
-      font-weight: 900;
-      font-size: 11px;
-      text-transform: uppercase;
-      cursor: pointer;
-      color: #57534e;
-      transition: all 0.15s;
+      padding: 12px 8px; border-radius: 1rem; border: 2px solid #e7e5e4; background: #fff;
+      font-weight: 900; font-size: 10px; text-transform: uppercase; cursor: pointer; color: #57534e;
     }
-    .menu-tab.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
+    .menu-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-    /* Product title row */
-    .product-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 20px;
-    }
-    .product-title-row h2 {
-      font-size: 24px;
-      font-weight: 900;
-    }
+    .product-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+    .product-title-row h2 { font-size: 28px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
+    .product-subtitle { color: var(--secondary); font-weight: 700; font-size: 15px; font-style: italic; margin-top: 6px; }
     .price-tag { text-align: right; }
-    .price-amount {
-      font-size: 22px;
-      font-weight: 900;
-      color: var(--primary);
-      white-space: nowrap; /* Label harga tidak turun ke bawah */
-    }
+    .price-amount { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1; white-space: nowrap; /* Teks tidak turun ke bawah */ }
+    .price-per { font-size: 9px; font-weight: 900; color: #a8a29e; text-transform: uppercase; margin-top: 4px; }
 
-    /* Sauce Segments - Dibedakan Jelas Brulee & Sushi */
-    .sauce-segment-title {
-      font-size: 11px;
-      font-weight: 900;
-      color: var(--primary);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      margin-top: 12px;
-      letter-spacing: 0.05em;
-    }
-    .sauce-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
+    /* SAUCE SEGMENTS */
+    .sauce-segment-title { font-size: 11px; font-weight: 900; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; margin-top: 12px; }
+    .sauce-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
     .sauce-btn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      border-radius: 1rem;
-      border: 2px solid #e7e5e4;
-      background: #fff;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      color: #57534e;
+      display: flex; align-items: center; justify-content: space-between; padding: 12px 16px;
+      border-radius: 1rem; border: 2px solid #e7e5e4; background: #fff; font-weight: 700; font-size: 12px; cursor: pointer; color: #57534e;
     }
-    .sauce-btn.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
+    .sauce-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-    /* Quantity */
-    .quantity-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #fff;
-      border: 2px solid var(--primary);
-      border-radius: 2rem;
-      padding: 12px 20px;
-      margin-top: 16px;
-    }
+    .quantity-box { display: flex; align-items: center; justify-content: space-between; background: #fffaf0; border: 2px solid var(--primary); border-radius: 2rem; padding: 16px 20px; }
     .qty-controls { display: flex; align-items: center; gap: 16px; }
     .qty-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 1rem;
-      border: 2px solid var(--primary);
-      background: #fff;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-weight: 900;
+      width: 48px; height: 48px; border-radius: 1rem; border: 2px solid var(--accent); background: #fff;
+      color: var(--secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 900;
     }
-    .qty-btn.plus { background: var(--primary); color: #fff; }
-    .qty-num { font-size: 20px; font-weight: 900; }
+    .qty-btn.plus { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .qty-num { font-size: 24px; font-weight: 900; color: #1c1917; min-width: 30px; text-align: center; }
 
-    /* CART SYSTEM VISUALS */
-    .cart-section {
-      padding: 0 24px 20px;
-    }
-    .cart-card {
-      background: #fff;
-      border-radius: 1.5rem;
-      padding: 16px;
-      border: 2px dashed var(--primary);
-    }
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid #f5f5f4;
-    }
+    /* CART UI */
+    .cart-container { margin: 0 20px 24px; background: #fff; border-radius: 1.5rem; padding: 16px; border: 2px dashed var(--primary); }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f5f5f4; }
     .cart-item:last-child { border-bottom: none; }
+    .qr-container { display: flex; flex-direction: column; align-items: center; padding: 16px; background: #fff; border-radius: 1.5rem; border: 2px solid var(--primary); margin: 16px 24px; }
 
-    /* QR Code Display Container */
-    .qr-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 16px 0;
-      padding: 16px;
-      background: #fff;
-      border-radius: 1.5rem;
-      border: 2px solid var(--primary);
-    }
-    .qr-image {
-      width: 180px;
-      height: 180px;
-      margin-bottom: 8px;
-    }
+    .payment-section { padding: 0 24px 32px; }
 
-    /* TULISAN KEUNGGULAN TERLALU KECIL -> DIBESARKAN */
-    .keunggulan-box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 1.5rem;
-      margin: 0 24px 24px;
-      border: 2px solid var(--primary);
-    }
-    .keunggulan-title {
-      font-size: 16px; /* Dibesarkan */
-      font-weight: 900;
-      color: var(--primary);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
-    .keunggulan-text {
-      font-size: 14px; /* Dibesarkan */
-      color: #57534e;
-      line-height: 1.5;
-    }
+    /* KEUNGGULAN DIBESARKAN */
+    .keunggulan-teks { font-size: 15px; line-height: 1.6; color: #57534e; }
+    .keunggulan-title { font-size: 16px; font-weight: 900; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; }
 
-    /* FEEDBACK */
+    /* ===============================
+       FEEDBACK SECTION
+    ================================ */
     .feedback-section { padding: 0 24px 48px; }
     .feedback-card { background: #fff; border-radius: 2rem; border: 1px solid #e7e5e4; padding: 24px; }
     .star-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; }
     .star-btn { background: none; border: none; cursor: pointer; }
-    .star-btn svg { width: 32px; height: 32px; color: #e7e5e4; }
-    .star-btn.active svg { color: #facc15; fill: #facc15; }
+    .star-btn svg { width: 32px; height: 32px; color: #e7e5e4; transition: all 0.15s; }
+    .star-btn.active svg { color: #facc15; fill: #facc15; transform: scale(1.1); }
     .feedback-textarea {
-      width: 100%;
-      background: #fff;
-      border: 2px solid #e7e5e4;
-      border-radius: 1rem;
-      padding: 16px;
-      font-family: 'Outfit', sans-serif;
-      outline: none;
-      resize: none;
-      min-height: 100px;
-      margin-bottom: 12px;
+      width: 100%; background: #fff; border: 2px solid #e7e5e4; border-radius: 1rem;
+      padding: 16px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; outline: none; resize: none; min-height: 120px; margin-bottom: 12px;
     }
 
-    /* SUCCESS RECEIPT */
+    /* ===============================
+       SUCCESS PAGE
+    ================================ */
     #success-page .success-card {
-      width: 100%;
-      max-width: 430px;
-      background: #fff;
-      border-radius: var(--radius-xl);
-      padding: 40px 32px;
-      text-align: center;
-      border: 4px solid #fff;
+      width: 100%; max-width: 430px; background: #fff; border-radius: var(--radius-xl); padding: 40px 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1); border: 4px solid #fff; text-align: center;
     }
-    .receipt-box {
-      background: #fff5e6;
-      border: 2px solid #e7e5e4;
-      border-radius: 1.5rem;
-      padding: 24px;
-      margin-bottom: 32px;
-      text-align: left;
-    }
-    .receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; font-weight: 700; }
+    .receipt-box { background: #fffaf0; border: 2px solid #e7e5e4; border-radius: 1.5rem; padding: 24px; margin-bottom: 32px; text-align: left; }
+    .receipt-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 11px; font-weight: 700;}
+    .receipt-total { font-size: 20px; font-weight: 900; color: var(--primary); }
 
-    /* ADMIN DASHBOARD */
-    #admin-page { padding: 24px; }
-    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    /* Tombol logout diganti warna merah */
-    .logout-btn {
-      background: #c0392b;
-      color: #fff;
-      border: none;
-      border-radius: 9999px;
-      padding: 8px 16px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .pagination-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 16px;
-    }
-    .pagination-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 12px;
-    }
-    .pagination-btn:disabled {
-      background: #d6d3d1;
-      cursor: not-allowed;
-    }
+    /* ===============================
+       ADMIN PAGE
+    ================================ */
+    #admin-page { padding: 0 24px 80px; }
+    .admin-header { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 48px; margin-bottom: 32px; }
+    
+    /* LOGOUT BUTTON MERAH */
+    .logout-btn { background: #ef4444; color: #fff; border: none; border-radius: 9999px; padding: 8px 16px; font-weight: 700; font-size: 13px; cursor: pointer; }
+    
+    .admin-control-card { background: #fff; border-radius: 2rem; border: 1px solid #e7e5e4; padding: 24px; margin-bottom: 24px; }
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .admin-tab { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid #e7e5e4; background: #fff; font-weight: 700; font-size: 13px; cursor: pointer; color: #a8a29e; }
+    .admin-tab.active-today { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .admin-tab.active-history { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+    .admin-tab.active-feedback { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .order-admin-card { background: #fff; border-radius: 1.5rem; border: 1px solid #e7e5e4; padding: 16px; margin-bottom: 12px; }
 
-    /* MODAL */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-    .modal-box {
-      background: #fff;
-      border-radius: var(--radius-xl);
-      padding: 32px;
-      max-width: 380px;
-      width: 100%;
-      border: 4px solid #fff;
-    }
+    .pagination-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+    .pagination-controls button { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 700;}
+    .pagination-controls button:disabled { background: #d6d3d1; cursor: not-allowed; }
+
+    /* ===============================
+       MODAL
+    ================================ */
+    .modal-overlay { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .modal-box { background: #fff; border-radius: var(--radius-xl); padding: 32px; max-width: 380px; width: 100%; border: 4px solid #fff; }
   </style>
 </head>
 <body>
 
-  <div id="quota-banner" class="hidden">
-    <span>Beberapa logo gagal dimuat</span>
-    <button onclick="reloadLogos()">Coba Lagi</button>
-  </div>
+<div id="quota-banner" class="hidden">
+  <span>Beberapa logo gagal dimuat</span>
+  <button onclick="reloadLogos()">Coba Lagi</button>
+</div>
 
-  <div id="login-page" class="center-page">
-    <div class="login-card anim-fadeup">
-      <div class="logo-row">
-        <div class="logo-circle yellow logo-glow">
-          <img id="login-logo-brulee" src="logo bom.jpeg" alt="Brulee Bomb Logo">
-        </div>
-        <div class="logo-circle white">
-          <img id="login-logo-hikari" src="logosusi.jpeg" alt="Hikari Sushi Logo">
-        </div>
+<div id="login-page" class="center-page">
+  <div class="login-card anim-fadeup">
+    <div class="logo-row">
+      <div class="logo-circle yellow logo-glow">
+        <img id="login-logo-brulee" src="logo bom.jpeg" alt="Brulee Bomb Logo">
       </div>
-      <h1 style="font-size:26px;font-weight:900;margin-bottom:8px;">Brulee Bomb x Hikari Sushi</h1>
-      <p style="color:#78716c;margin-bottom:32px;font-weight:600;">Silahkan pilih akses masuk aplikasi</p>
-      
-      <div id="login-selection">
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <button class="btn-primary" onclick="loginAsCustomer()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            See Our Menu
-          </button>
-          <button class="btn-outline" onclick="showAdminLogin()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Login
-          </button>
-        </div>
+      <div class="logo-circle white">
+        <img id="login-logo-hikari" src="logosusi.jpeg" alt="Hikari Sushi Logo">
+      </div>
+    </div>
+    <h1 style="font-size:26px;font-weight:900;margin-bottom:8px;">Brulee Bomb x Hikari Sushi</h1>
+    <p style="color:#78716c;margin-bottom:32px;font-weight:600;">Please select your login type</p>
 
-        <div class="keunggulan-box" style="margin: 24px 0 0 0; text-align: left;">
-          <div class="keunggulan-title">Brand Detail</div>
-          <p style="font-size:12px; color:#78716c;">Sajian kuliner premium kolaborasi varian keju lumer Brulee Bomb dan kelezatan Sushi kreasi modern unik khas nusantara.</p>
-        </div>
+    <div id="login-selection">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <button class="btn-primary" onclick="loginAsCustomer()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          See Our Menu
+        </button>
+        <button class="btn-outline" onclick="showAdminLogin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Login
+        </button>
       </div>
 
-      <div id="login-admin" class="hidden">
-        <div style="text-align:left;">
-          <label style="font-size:10px;font-weight:900;color:#a8a29e;text-transform:uppercase;margin-bottom:8px;display:block;">Kata Sandi Admin</label>
-          <div class="input-wrap" style="margin-bottom:4px;">
-            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <input id="admin-pw-input" type="password" class="input-field" placeholder="Masukkan password" onkeydown="if(event.key==='Enter')tryAdminLogin()">
-          </div>
-          <div id="login-error" class="error-msg hidden" style="color:#ef4444; font-size:12px;"></div>
-          <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
-            <button class="btn-secondary" onclick="tryAdminLogin()">Masuk Admin</button>
-            <button style="background:none;border:none;color:#a8a29e;font-weight:700;cursor:pointer;" onclick="backToSelection()">Kembali</button>
-          </div>
+      <div class="brand-detail-box">
+        <div class="brand-detail-title">📋 Brand Detail</div>
+        <p style="font-size:12px; color:#57534e; font-weight:600;">Menghadirkan kolaborasi mahakarya kuliner premium Brulee Bomb dan kreasi unik Hikari Sushi untuk menemani waktu santai Anda.</p>
+      </div>
+    </div>
+
+    <div id="login-admin" class="hidden">
+      <div style="text-align:left;">
+        <label style="font-size:10px;font-weight:900;color:#a8a29e;text-transform:uppercase;letter-spacing:0.12em;display:block;margin-bottom:8px;">Admin Password</label>
+        <div class="input-wrap" style="margin-bottom:4px;">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input id="admin-pw-input" type="password" class="input-field" placeholder="Enter password" onkeydown="if(event.key==='Enter')tryAdminLogin()">
+        </div>
+        <div id="login-error" class="error-msg hidden" style="color:#ef4444; font-size:12px; margin-top:6px; font-weight:700;"></div>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
+          <button class="btn-secondary" onclick="tryAdminLogin()">Masuk Admin</button>
+          <button style="background:none;border:none;color:#a8a29e;font-weight:700;font-size:14px;cursor:pointer;padding:8px;" onclick="backToSelection()">Back</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div id="order-page" class="page-wrapper hidden">
-    <div class="page-inner">
-      <div class="header-section">
-        <div class="side-logos-left">
-          <div class="side-logo-box"><img src="https://istts.ac.id/images/logo.png" alt="Logo iSTTS"></div>
-          <div class="side-logo-box"><img src="https://mbd.istts.ac.id/assets/img/logo-mbd.png" alt="Logo MBD"></div>
-        </div>
-        
-        <div class="side-actions-right">
-          <button class="icon-btn" onclick="openBrandModal()" title="Brand Detail">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          </button>
-          <button class="icon-btn" onclick="exitToLogin()" title="Kembali">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
-          </button>
-        </div>
-
-        <div class="header-logos">
-          <div class="header-logo-circle yellow"><img src="logo bom.jpeg" alt="Logo Brulee"></div>
-          <div class="header-logo-circle white"><img src="logosusi.jpeg" alt="Logo Sushi"></div>
-        </div>
-        <h2 style="font-size:22px; font-weight:900; margin-top:12px;">Brulee Bomb x Hikari Sushi</h2>
+<div id="order-page" class="page-wrapper hidden">
+  <div class="page-inner">
+    <div class="header-section">
+      <div class="side-logos-left">
+        <div class="side-logo-box"><img id="istts-logo" src="mbdlogo.jpeg" alt="ISTTS Logo"></div>
+        <div class="side-logo-box"><img id="aicampus-logo" src="sttslogo.jpeg" alt="AI Campus Logo"></div>
       </div>
 
-      <div style="padding: 0 24px 20px;">
-        <div class="section-label">Identitas Pembeli</div>
-        <div class="input-wrap">
-          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <input id="customer-name-input" type="text" class="input-field" placeholder="Tulis nama Anda disini...">
-        </div>
+      <div class="header-logos">
+        <div class="header-logo-circle yellow logo-glow"><img id="header-logo-brulee" src="logo bom.jpeg" alt="Brulee Bomb Logo"></div>
+        <div class="header-logo-circle white"><img id="header-logo-hikari" src="logosusi.jpeg" alt="Hikari Sushi Logo"></div>
       </div>
 
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img id="product-img" src="menu-brulee.jpeg" alt="Product Image">
-        </div>
-        <div class="product-body">
-          <div class="menu-tabs">
-            <button class="menu-tab active" id="tab-brulee" onclick="selectMenu('Brulee Bomb')">Brulee</button>
-            <button class="menu-tab" id="tab-sushi" onclick="selectMenu('Hikari Sushi')">Sushi</button>
-            <button class="menu-tab" id="tab-bundle" onclick="selectMenu('Bundle')">Bundle</button>
-          </div>
+      <div class="side-actions-right">
+        <button class="icon-btn" title="Back to Login" onclick="doLogout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
 
-          <div class="product-title-row">
-            <div>
-              <h2 id="product-title">Brulee Bomb Premium</h2>
-              <div class="stock-badge" id="stock-display">Stok Tersedia</div>
-            </div>
-            <div class="price-tag">
-              <div class="price-amount" id="product-price">Rp 15.000</div>
-            </div>
-          </div>
+    <div style="padding: 0 24px 20px;">
+      <div class="section-label">Identitas Pemesan</div>
+      <div class="input-wrap">
+        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <input type="text" id="customer-name-input" class="input-field" placeholder="Masukkan nama lengkap Anda">
+      </div>
+    </div>
 
-          <div id="sauce-section-brulee">
-            <div class="sauce-segment-title">Saus Khusus Brulee Bomb</div>
-            <div class="sauce-grid">
-              <button class="sauce-btn" id="s-saos" onclick="toggleSauce('Saus Sambal')">Sambal Oelek</button>
-              <button class="sauce-btn" id="s-mayo" onclick="toggleSauce('Bolognese Mayo')">Bolognese Mayo</button>
-            </div>
-          </div>
-
-          <div id="sauce-section-sushi" class="hidden">
-            <div class="sauce-segment-title">Saus Khusus Hikari Sushi</div>
-            <div class="sauce-grid">
-              <button class="sauce-btn" id="s-shoyu" onclick="toggleSauce('Shoyu Original')">Shoyu Premium</button>
-              <button class="sauce-btn" id="s-wasabi" onclick="toggleSauce('Creamy Wasabi')">Creamy Wasabi</button>
-            </div>
-          </div>
-
-          <div class="quantity-box">
-            <span style="font-weight:900; font-size:14px;">Tentukan Jumlah</span>
-            <div class="qty-controls">
-              <button class="qty-btn" onclick="changeQty(-1)">-</button>
-              <span class="qty-num" id="qty-display">1</span>
-              <button class="qty-btn plus" onclick="changeQty(1)">+</button>
-            </div>
-          </div>
-
-          <button class="btn-primary" style="margin-top:16px; padding:12px;" onclick="addToCart()">
-            Tambah ke Keranjang Belanja
-          </button>
-        </div>
+    <div class="product-card glass-card anim-fadeup">
+      <div class="product-img-wrap">
+        <img id="product-img" src="brulle.png" alt="Product">
       </div>
 
-      <div class="cart-section" id="cart-container-view">
-        <div class="section-label">Keranjang Belanja Anda</div>
-        <div class="cart-card">
-          <div id="cart-items-list">
-            <p style="font-size:12px; color:#a8a29e; font-style:italic; text-align:center;">Keranjang belanja masih kosong.</p>
+      <div class="product-body">
+        <div class="section-label">Pilih Menu Utama</div>
+        <div class="menu-tabs">
+          <button class="menu-tab active" onclick="selectMenu('Brulee Bomb',this)">Brulee Bomb</button>
+          <button class="menu-tab" onclick="selectMenu('Hikari Sushi',this)">Hikari Sushi</button>
+          <button class="menu-tab" onclick="selectMenu('Bundle',this)">Bundle Spesial</button>
+        </div>
+
+        <div class="product-title-row">
+          <div>
+            <h2 id="menu-title">Brulee Bomb</h2>
+            <p class="product-subtitle" id="menu-subtitle">Cheese & Sausage Filled</p>
           </div>
-          <div style="margin-top:12px; padding-top:8px; border-top:2px solid #e7e5e4; display:flex; justify-content:space-between; font-weight:900;">
-            <span>Total Belanja:</span>
-            <span id="cart-total-price" class="text-primary">Rp
+          <div class="price-tag">
+            <div class="price-amount" id="price-display">Rp 10.000</div>
+            <div class="price-per" id="price-per">Per 5 Pcs</div>
+          </div>
+        </div>
+
+        <div id="sauce-brulee-section">
+          <div class="sauce-segment-title">Saus Khusus Brulee Bomb</div>
+          <div class="sauce-grid">
+            <button class="sauce-btn" data-sauce="Saus Sambal" onclick="toggleSauce('Saus Sambal', this)">Saus Sambal</button>
+            <button class="sauce-btn" data-sauce="Saus Tomat" onclick="toggleSauce('Saus Tomat', this)">Saus Tomat</button>
+          </div>
+        </div>
+
+        <div id="sauce-sushi-section" class="hidden">
+          <div class="sauce-segment-title">Saus Khusus Hikari Sushi</div>
+          <div class="sauce-grid">
+            <button class="sauce-btn" data-sauce="Saus Mayonais" onclick="toggleSauce('Saus Mayonais', this)">Saus Mayonais</button>
+            <button class="sauce-btn" data-sauce="Saus Mentai" onclick="toggleSauce('Saus Mentai', this)">Saus Mentai</button>
+          </div>
+        </div>
+
+        <div class="quantity-row" style="margin-top:16px;">
+          <div class="section-label" style="margin-bottom:0;">Tentukan Jumlah</div>
+          <div class="stock-badge" id="stock-display" style="display:none; color:var(--primary); font-weight:700; font-size:12px;"></div>
+        </div>
+        <div class="quantity-box" style="margin-top:8px;">
+          <div style="font-weight:900; font-size:12px;">JUMLAH PORSI</div>
+          <div class="qty-controls">
+            <button class="qty-btn" id="qty-minus" onclick="changeQty(-1)">-</button>
+            <span class="qty-num" id="qty-display">1</span>
+            <button class="qty-btn plus" id="qty-plus" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <button class="btn-primary" style="margin-top:20px;" onclick="addToCart()">
+          Tambah ke Keranjang
+        </button>
+      </div>
+    </div>
+
+    <div class="cart-container" id="cart-ui-container">
+      <div class="section-label">Keranjang Belanja</div>
+      <div id="cart-list">
+        <p style="font-size:12px; font-style:italic; color:#a8a29e; text-align:center;">Keranjang Anda masih kosong.</p>
+      </div>
+      <div style="border-top:1px solid #e7e5e4; padding-top:10px; margin-top:10px; display:flex; justify-content:space-between; font-weight:900;">
+        <span>Total Harga:</span>
+        <span id="cart-grand-total" style="color:var(--primary);">Rp 0</span>
+      </div>
+    </div>
+
+    <div style="padding: 0 24px 10px;">
+      <div class="section-label">Metode Pembayaran</div>
+      <div class="menu-tabs" id="payment-tabs" style="grid-template-columns: 1fr 1fr;">
+        <button class="menu-tab active" onclick="selectPayment('QR', this)">QRIS (Tampil QR)</button>
+        <button class="menu-tab" onclick="selectPayment('Tunai', this)">Tunai (Cash)</button>
+      </div>
+    </div>
+
+    <div id="qr-display-section" class="qr-container">
+      <div style="font-size:12px; font-weight:900; color:var(--primary); margin-bottom:8px;">SCAN QR UNTUK BAYAR</div>
+      <img id="qr-live-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Menunggu+Pesanan" alt="QR Code" style="width:150px; height:150px;" />
+    </div>
+
+    <div class="payment-section">
+      <button class="btn-secondary" id="pay-btn" onclick="handleOrderCheckout()">
+        <span id="pay-btn-text">Checkout Pesanan</span>
+      </button>
+    </div>
+
+    <div style="padding: 0 24px 32px;">
+      <div style="background:#fff; padding:20px; border-radius:1.5rem; border:2px solid #e7e5e4;">
+        <div class="keunggulan-title">Mengapa Memilih Kami?</div>
+        <p class="keunggulan-teks">Rasakan ledakan keju mozarella premium dalam setiap balutan Brulee Bomb krispi kami, atau nikmati kelembutan perpaduan Hikari Sushi yang diolah dari bahan segar pilihan. Pengalaman rasa yang diracik khusus untuk memuaskan lidah Anda!</p>
+      </div>
+    </div>
+
+    <div class="feedback-section">
+      <div class="feedback-card">
+        <div class="section-label" style="margin-bottom:16px;">Beri Rating & Ulasan</div>
+        <div class="star-row" id="feedback-stars"></div>
+        <textarea id="feedback-msg" class="feedback-textarea" placeholder="Bagikan pengalaman Anda atau berikan saran untuk kami..."></textarea>
+        <button class="btn-secondary" onclick="submitFeedback()">Kirim Ulasan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="success-page" class="center-page hidden">
+  <div class="success-card anim-scalein">
+    <h2 style="font-size:28px;font-weight:900;margin-bottom:8px;color:var(--primary);">Pesanan Sukses!</h2>
+    <p id="success-desc" style="color:#57534e;margin-bottom:24px;font-size:15px;"></p>
+    <div class="receipt-box">
+      <div class="receipt-row"><span style="color:#a8a29e;">Kustomer</span><span id="rc-customer" style="color:#1c1917;"></span></div>
+      <div class="receipt-row"><span style="color:#a8a29e;">Pembayaran</span><span id="rc-payment" style="color:#1c1917;"></span></div>
+      <div class="receipt-row"><span style="color:#a8a29e;">Detail Menu</span><span id="rc-items" style="color:#1c1917; text-align:right; max-width:60%;"></span></div>
+      <div style="height: 1px; background: #e7e5e4; margin: 10px 0;"></div>
+      <div class="receipt-row"><span style="color:#a8a29e;">Total Tagihan</span><span class="receipt-total" id="rc-total"></span></div>
+    </div>
+    <button class="btn-secondary" onclick="resetOrder()">Kembali Belanja</button>
+  </div>
+</div>
+
+<div id="admin-page" class="page-wrapper hidden">
+  <div class="page-inner" style="max-width:500px; margin:0 auto;">
+    <div style="padding:0 24px 80px;">
+      <div class="admin-header">
+        <div>
+          <h1 style="font-size:22px; font-weight:900;">Admin Dashboard</h1>
+          <span style="font-size:12px; font-weight:700; color:#a8a29e;">Live Data Active</span>
+        </div>
+        <button class="logout-btn" onclick="doLogout()">Logout</button>
+      </div>
+
+      <div class="admin-control-card">
+        <label style="font-size:12px;font-weight:700;color:#a8a29e;display:block;margin-bottom:6px;">Set Kuota Stok Harian</label>
+        <div style="display:flex; gap:10px;">
+          <input type="number" id="admin-stock-input" class="input-field" placeholder="Jumlah porsi">
+          <button class="btn-primary" style="width:auto; padding:10px 20px;" onclick="setStock()">Set</button>
+        </div>
+        <p id="current-stock-display" style="font-size:12px;font-weight:700;color:#a8a29e;margin-top:10px;" class="hidden">
+          Sisa Stok Saat Ini: <span id="current-stock-val" style="color:var(--primary); font-weight:900;"></span>
+        </p>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active-today" id="tab-today" onclick="setAdminTab('orders')">Riwayat Masuk</button>
+        <button class="admin-tab" id="tab-feedback" onclick="setAdminTab('feedback')">Ulasan Masuk</button>
+      </div>
+
+      <div class="admin-control-card hidden" id="date-filter-card">
+        <label style="font-size:11px;font-weight:700;color:#a8a29e;">Filter Tanggal</label>
+        <input type="date" id="admin-date-filter" class="input-field" onchange="renderAdminList()">
+        <button style="background:none; border:none; color:var(--primary); font-weight:700; font-size:12px; margin-top:8px; cursor:pointer;" onclick="clearDateFilter()">Clear Filter</button>
+      </div>
+
+      <div id="chart-container" class="admin-control-card hidden">
+        <canvas id="salesChart"></canvas>
+      </div>
+
+      <div id="admin-list"></div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// GOOGLE APPS SCRIPT INTEGRATION (DIPERTAHANKAN 100%)
+// ============================================================
+const APPSCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNs90cBolHOzn3hhjgogmk6_vRJKZt7xviOKxUnKUE3gFq4W7FlpVj6MHmNnLlopmi6w/exec";
+
+async function fetchFromSheets() {
+  try {
+    const response = await fetch(APPSCRIPT_URL);
+    const result = await response.json();
+    if(result.orders) {
+        state.purchaseHistory = result.orders.map(o => ({...o, date: new Date(o.date)}));
+    }
+    if(result.feedbacks) {
+        state.feedbacks = result.feedbacks.map(f => ({...f, date: new Date(f.date)}));
+    }
+    if(state.userRole === 'admin') renderAdminPage();
+  } catch(e) {
+    console.log("Gagal memuat dari sheets, menggunakan data lokal.", e);
+  }
+}
+
+function sendDataToSheets(actionType, payloadData) {
+    let typeGS = actionType;
+    if (actionType === 'addOrder') typeGS = 'order';
+    if (actionType === 'addFeedback') typeGS = 'feedback';
+    let finalData = payloadData;
+    finalData.type = typeGS;
+
+    fetch(APPSCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(finalData)
+    })
+    .then(response => response.json())
+    .then(data => console.log("Data sukses terkirim:", data))
+    .catch(error => console.error("Error:", error));
+}
+
+// ============================================================
+// STATE SYSTEM
+// ============================================================
+let state = {
+  userRole: null,
+  loginView: 'selection',
+  quantity: 1,
+  selectedMenu: 'Brulee Bomb',
+  selectedSauces: [],
+  customerName: '',
+  dailyStock: null,
+  feedbackRating: 0, // DEFAULT 0 BINTANG 
+  adminTab: 'orders',
+  adminDateFilter: '',
+  purchaseHistory: [],
+  feedbacks: [],
+  logoImage: 'logo bom.jpeg',
+  hikariLogo: 'logosusi.jpeg',
+  aiCampusLogo: 'sttslogo.jpeg',
+  isttsLogo: 'mbdlogo.jpeg',
+  productImage: 'brulle.png',
+  cart: [], // STATE BARU UNTUK ADD TO CART
+  adminPage: 1, // PAGINATION ADMIN
+  paymentMethod: 'QR'
+};
+
+const MENU_PRICES = { 'Brulee Bomb': 10000, 'Hikari Sushi': 8000, 'Bundle': 18000 };
+const MENU_SUBTITLES = {
+  'Brulee Bomb': 'Cheese & Sausage Filled',
+  'Hikari Sushi': 'Sushi berisi ayam nugget dan timun', // Menjaga sesuai Ledger & Original
+  'Bundle': '1 Porsi Brulee Bomb + 1 Porsi Hikari Sushi'
+};
+const PRODUCT_IMAGES = { 'Brulee Bomb': 'brulle.png', 'Hikari Sushi': 'sushi.png', 'Bundle': 'combo.png' };
+
+function saveToStorage() {
+  try {
+    localStorage.setItem('bb_orders', JSON.stringify(state.purchaseHistory));
+    localStorage.setItem('bb_feedbacks', JSON.stringify(state.feedbacks));
+    if (state.dailyStock !== null) localStorage.setItem('bb_stock_' + todayStr(), state.dailyStock);
+  } catch(e) {}
+}
+function loadFromStorage() {
+  try {
+    const orders = localStorage.getItem('bb_orders');
+    if (orders) state.purchaseHistory = JSON.parse(orders).map(o => ({ ...o, date: new Date(o.date) }));
+    const fbs = localStorage.getItem('bb_feedbacks');
+    if (fbs) state.feedbacks = JSON.parse(fbs).map(f => ({ ...f, date: new Date(f.date) }));
+    const stock = localStorage.getItem('bb_stock_' + todayStr());
+    if (stock !== null) state.dailyStock = parseInt(stock);
+  } catch(e) {}
+}
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// ============================================================
+// CORE NAVIGATION & LOGIN
+// ============================================================
+function showPage(id) {
+  ['login-page','order-page','success-page','admin-page'].forEach(p => document.getElementById(p).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+function loginAsCustomer() {
+  state.userRole = 'customer';
+  showPage('order-page');
+  renderOrderPage();
+  renderCartUI();
+  renderFeedbackStars();
+}
+
+function showAdminLogin() {
+  document.getElementById('login-selection').classList.add('hidden');
+  document.getElementById('login-admin').classList.remove('hidden');
+  document.getElementById('admin-pw-input').value = '';
+  document.getElementById('login-error').classList.add('hidden');
+}
+
+function backToSelection() {
+  document.getElementById('login-admin').classList.add('hidden');
+  document.getElementById('login-selection').classList.remove('hidden');
+}
+
+function tryAdminLogin() {
+  const pw = document.getElementById('admin-pw-input').value;
+  if (pw === 'atmin') { // KEMBALI KE PASSWORD ASLI (Sesuai kode awal Anda)
+    state.userRole = 'admin';
+    showPage('admin-page');
+    renderAdminPage();
+  } else {
+    document.getElementById('login-error').textContent = 'Incorrect password';
+    document.getElementById('login-error').classList.remove('hidden');
+  }
+}
+
+function doLogout() {
+  state.userRole = null;
+  backToSelection();
+  showPage('login-page');
+}
+
+// ============================================================
+// ORDER PAGE LOGIC (CART & QR)
+// ============================================================
+function renderOrderPage() {
+  document.getElementById('header-logo-brulee').src = state.logoImage;
+  document.getElementById('header-logo-hikari').src = state.hikariLogo;
+  document.getElementById('istts-logo').src = state.isttsLogo;
+  document.getElementById('aicampus-logo').src = state.aiCampusLogo;
+
+  document.getElementById('menu-title').textContent = state.selectedMenu;
+  document.getElementById('menu-subtitle').textContent = MENU_SUBTITLES[state.selectedMenu];
+  document.getElementById('price-display').textContent = 'Rp ' + MENU_PRICES[state.selectedMenu].toLocaleString('id-ID');
+  
+  const img = document.getElementById('product-img');
+  img.style.opacity = '0';
+  setTimeout(() => { img.src = PRODUCT_IMAGES[state.selectedMenu]; img.style.opacity = '1'; }, 150);
+
+  // Atur Tampilan Menu Saus Terpisah
+  if (state.selectedMenu === 'Brulee Bomb') {
+    document.getElementById('sauce-brulee-section').classList.remove('hidden');
+    document.getElementById('sauce-sushi-section').classList.add('hidden');
+  } else if (state.selectedMenu === 'Hikari Sushi') {
+    document.getElementById('sauce-brulee-section').classList.add('hidden');
+    document.getElementById('sauce-sushi-section').classList.remove('hidden');
+  } else { // Bundle show both
+    document.getElementById('sauce-brulee-section').classList.remove('hidden');
+    document.getElementById('sauce-sushi-section').classList.remove('hidden');
+  }
+
+  // Highlight tombol saus yang aktif
+  document.querySelectorAll('.sauce-btn').forEach(btn => {
+    if(state.selectedSauces.includes(btn.getAttribute('data-sauce'))) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  renderStockDisplay();
+}
+
+function selectMenu(menu, btn) {
+  state.selectedMenu = menu;
+  state.selectedSauces = [];
+  state.quantity = 1;
+  document.querySelectorAll('.menu-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderOrderPage();
+}
+
+function toggleSauce(sauce, btn) {
+  const idx = state.selectedSauces.indexOf(sauce);
+  if (idx >= 0) state.selectedSauces.splice(idx, 1);
+  else state.selectedSauces.push(sauce);
+  renderOrderPage(); // refresh buttons
+}
+
+function renderStockDisplay() {
+  const el = document.getElementById('stock-display');
+  if (state.dailyStock !== null) {
+    el.style.display = 'block';
+    el.textContent = 'Sisa Stok Harian: ' + state.dailyStock;
+  } else {
+    el.style.display = 'none';
+  }
+  
+  document.getElementById('qty-display').textContent = state.quantity;
+  document.getElementById('qty-minus').disabled = state.quantity <= 1;
+  const plusBtn = document.getElementById('qty-plus');
+  
+  if (state.dailyStock !== null && state.quantity >= state.dailyStock) {
+    plusBtn.disabled = true;
+  } else {
+    plusBtn.disabled = false;
+  }
+}
+
+function changeQty(delta) {
+  const newQty = state.quantity + delta;
+  if (newQty < 1) return;
+  if (delta > 0 && state.dailyStock !== null && newQty > state.dailyStock) {
+    alert('Maaf, kuota stok porsi tidak mencukupi.'); return;
+  }
+  state.quantity = newQty;
+  renderStockDisplay();
+}
+
+// SISTEM KERANJANG BELANJA (CART)
+function addToCart() {
+  const name = document.getElementById('customer-name-input').value.trim();
+  if (!name) { alert('Tolong lengkapi Identitas Pemesan terlebih dahulu.'); return; }
+
+  const stockNeeded = state.selectedMenu === 'Bundle' ? state.quantity * 2 : state.quantity;
+  if (state.dailyStock !== null && stockNeeded > state.dailyStock) {
+    alert('Maaf, kuota porsi harian tidak mencukupi sisa pesanan ini.'); return;
+  }
+
+  const price = MENU_PRICES[state.selectedMenu];
+  const item = {
+    menu: state.selectedMenu,
+    qty: state.quantity,
+    sauces: [...state.selectedSauces],
+    price: price * state.quantity,
+    profit: state.quantity * (price - (state.selectedMenu === 'Bundle' ? 12000 : 6000))
+  };
+
+  state.cart.push(item);
+
+  if (state.dailyStock !== null) {
+    state.dailyStock -= stockNeeded;
+  }
+
+  state.quantity = 1;
+  state.selectedSauces = [];
+  renderOrderPage();
+  renderCartUI();
+}
+
+function renderCartUI() {
+  const list = document.getElementById('cart-list');
+  const totalEl = document.getElementById('cart-grand-total');
+  
+  if (state.cart.length === 0) {
+    list.innerHTML = '<p style="font-size:12px; font-style:italic; color:#a8a29e; text-align:center;">Keranjang Anda masih kosong.</p>';
+    totalEl.textContent = 'Rp 0';
+  } else {
+    let grandTotal = 0;
+    list.innerHTML = state.cart.map((c, i) => {
+      grandTotal += c.price;
+      return `
+        <div class="cart-item">
+          <div>
+            <div style="font-weight:900; font-size:12px; color:#1c1917;">${c.menu} (${c.qty}x)</div>
+            <div style="font-size:10px; color:#a8a29e;">Saus: ${c.sauces.length > 0 ? c.sauces.join(', ') : 'Tanpa Saus'}</div>
+          </div>
+          <div style="font-weight:900; font-size:13px; color:var(--primary);">Rp ${c.price.toLocaleString('id-ID')}</div>
+        </div>
+      `;
+    }).join('');
+    totalEl.textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
+  }
+  
+  updateQRAndCheckoutButton();
+}
+
+function selectPayment(method, btn) {
+  state.paymentMethod = method;
+  const tabs = document.getElementById('payment-tabs').querySelectorAll('.menu-tab');
+  tabs.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateQRAndCheckoutButton();
+}
+
+function updateQRAndCheckoutButton() {
+  const finalBill = state.cart.reduce((sum, c) => sum + c.price, 0);
+  const btnText = document.getElementById('pay-btn-text');
+  btnText.textContent = finalBill > 0 ? `Checkout Pesanan - Rp ${finalBill.toLocaleString('id-ID')}` : 'Checkout Pesanan';
+  
+  const qrDisplay = document.getElementById('qr-display-section');
+  const qrImg = document.getElementById('qr-live-img');
+  
+  if (state.paymentMethod === 'QR') {
+    qrDisplay.classList.remove('hidden');
+    if (finalBill > 0) {
+      // Dinamis generate berdasarkan total
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Total+Bayar+Rp+${finalBill}`;
+    } else {
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Keranjang+Kosong`;
+    }
+  } else {
+    qrDisplay.classList.add('hidden');
+  }
+}
+
+function handleOrderCheckout() {
+  if (state.cart.length === 0) { alert('Keranjang Anda kosong! Tambahkan menu terlebih dahulu.'); return; }
+  
+  const name = document.getElementById('customer-name-input').value.trim();
+  const totalPrice = state.cart.reduce((sum, c) => sum + c.price, 0);
+  const totalProfit = state.cart.reduce((sum, c) => sum + c.profit, 0);
+  const totalQty = state.cart.reduce((sum, c) => sum + c.qty, 0);
+  const itemsDesc = state.cart.map(c => `${c.menu} (${c.qty}x)`).join(', ');
+  const allSauces = state.cart.flatMap(c => c.sauces);
+
+  const order = {
+    id: Math.random().toString(36).substr(2,9),
+    date: new Date(),
+    customerName: name,
+    menuItem: itemsDesc,
+    quantity: totalQty,
+    totalPrice: totalPrice,
+    sauces: allSauces,
+    paymentMethod: state.paymentMethod,
+    status: 'Success',
+    profit: totalProfit
+  };
+
+  state.purchaseHistory.unshift(order);
+  saveToStorage();
+  sendDataToSheets('addOrder', order);
+
+  document.getElementById('rc-customer').textContent = order.customerName;
+  document.getElementById('rc-payment').textContent = order.paymentMethod;
+  document.getElementById('rc-items').textContent = order.menuItem;
+  document.getElementById('rc-total').textContent = 'Rp ' + order.totalPrice.toLocaleString('id-ID');
+  document.getElementById('success-desc').textContent = 'Pesanan lezat Anda akan segera kami racik. Mohon tunggu sebentar ya!';
+  
+  // Bersihkan data setelah sukses
+  state.cart = [];
+  state.paymentMethod = 'QR';
+  showPage('success-page');
+}
+
+function resetOrder() {
+  document.getElementById('customer-name-input').value = '';
+  renderCartUI();
+  showPage('order-page');
+  renderOrderPage();
+}
+
+// ============================================================
+// FEEDBACK SYSTEM (Rating Default 0 & Recorded Customer)
+// ============================================================
+function renderFeedbackStars() {
+  const row = document.getElementById('feedback-stars');
+  row.innerHTML = [1,2,3,4,5].map(s => `
+    <button class="star-btn ${s <= state.feedbackRating ? 'active' : ''}" onclick="setFeedbackRating(${s})">
+      <svg viewBox="0 0 24 24" fill="${s <= state.feedbackRating ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+    </button>
+  `).join('');
+}
+
+function setFeedbackRating(r) {
+  state.feedbackRating = r;
+  renderFeedbackStars();
+}
+
+function submitFeedback() {
+  const msg = document.getElementById('feedback-msg').value.trim();
+  const name = document.getElementById('customer-name-input').value.trim() || "Anonim Pelanggan"; // Customer Record
+  if (!msg) { alert('Silakan tulis ulasan Anda.'); return; }
+
+  const fb = {
+    id: Math.random().toString(36).substr(2,9),
+    date: new Date(),
+    customerName: name,
+    message: msg,
+    rating: state.feedbackRating
+  };
+  
+  state.feedbacks.unshift(fb);
+  saveToStorage();
+  sendDataToSheets('addFeedback', fb);
+  
+  document.getElementById('feedback-msg').value = '';
+  state.feedbackRating = 0; // Reset ke 0
+  renderFeedbackStars();
+  alert('Terima kasih! Ulasan & rating Anda berhasil terekam.');
+}
+
+// ============================================================
+// ADMIN PAGE & PAGINATION
+// ============================================================
+function renderAdminPage() {
+  const d = document.getElementById('current-stock-display');
+  const v = document.getElementById('current-stock-val');
+  if (state.dailyStock !== null) { d.classList.remove('hidden'); v.textContent = state.dailyStock; } 
+  else { d.classList.add('hidden'); }
+  renderAdminList();
+}
+
+function setStock() {
+  const val = parseInt(document.getElementById('admin-stock-input').value);
+  if (isNaN(val) || val < 0) return;
+  state.dailyStock = val;
+  localStorage.setItem('bb_stock_' + todayStr(), val);
+  document.getElementById('admin-stock-input').value = '';
+  renderAdminPage();
+}
+
+function setAdminTab(tab) {
+  state.adminTab = tab;
+  state.adminPage = 1; // Reset halaman
+  state.adminDateFilter = '';
+  document.getElementById('admin-date-filter').value = '';
+  ['today','feedback'].forEach(t => document.getElementById('tab-' + t).className = 'admin-tab');
+  const map = { orders: 'today', feedback: 'feedback' };
+  document.getElementById('tab-' + map[tab]).classList.add('active-' + map[tab]);
+  document.getElementById('date-filter-card').classList.toggle('hidden', tab !== 'orders');
+  renderAdminList();
+}
+
+function clearDateFilter() {
+  state.adminDateFilter = '';
+  document.getElementById('admin-date-filter').value = '';
+  state.adminPage = 1;
+  renderAdminList();
+}
+
+function changeAdminPage(dir) {
+  state.adminPage += dir;
+  renderAdminList();
+}
+
+function renderAdminList() {
+  state.adminDateFilter = document.getElementById('admin-date-filter') ? document.getElementById('admin-date-filter').value : '';
+  const list = document.getElementById('admin-list');
+  
+  if (state.adminTab === 'feedback') {
+    if (state.feedbacks.length === 0) { list.innerHTML = `<p style="text-align:center; color:#a8a29e; font-size:12px;">Belum ada ulasan.</p>`; return; }
+    list.innerHTML = state.feedbacks.map(f => `
+      <div class="order-admin-card" style="border-left:4px solid var(--primary);">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-size:11px; color:#a8a29e;">${new Date(f.date).toLocaleDateString('id-ID')}</span>
+          <span style="color:#facc15; font-weight:900;">★ ${f.rating}</span>
+        </div>
+        <div style="font-weight:900; margin-bottom:4px;">${f.customerName}</div>
+        <div style="font-size:13px; color:#57534e;">"${f.message}"</div>
+      </div>
+    `).join('');
+    return;
+  }
+  
+  let orders = state.purchaseHistory;
+  if (state.adminDateFilter) {
+    orders = orders.filter(o => {
+      const d = new Date(o.date);
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` === state.adminDateFilter;
+    });
+  }
+
+  if (orders.length === 0) {
+    list.innerHTML = `<p style="text-align:center; color:#a8a29e; font-size:12px;">Belum ada pesanan terdaftar.</p>`;
+    return;
+  }
+
+  // LOGIKA PAGINATION
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(orders.length / itemsPerPage) || 1;
+  const start = (state.adminPage - 1) * itemsPerPage;
+  const paginatedOrders = orders.slice(start, start + itemsPerPage);
+
+  let html = paginatedOrders.map(o => `
+    <div class="order-admin-card">
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid #f5f5f4; padding-bottom:6px;">
+        <span style="font-size:11px; font-weight:700; color:#a8a29e;">ID: ${o.id}</span>
+        <span style="font-size:11px; color:var(--primary); font-weight:900;">${new Date(o.date).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>
+      </div>
+      <div style="font-weight:900; margin-bottom:4px;">Kustomer: ${o.customerName}</div>
+      <div style="font-size:12px; color:#57534e; margin-bottom:8px;">Menu: ${o.menuItem}</div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:10px; background:#fffaf0; padding:2px 8px; border-radius:99px; border:1px solid var(--primary); color:var(--primary); font-weight:900;">${o.paymentMethod}</span>
+        <span style="font-weight:900; color:#1c1917;">Rp ${o.totalPrice.toLocaleString('id-ID')}</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Kontrol Pagination
+  html += `
+    <div class="pagination-controls">
+      <button onclick="changeAdminPage(-1)" ${state.adminPage === 1 ? 'disabled' : ''}>Prev</button>
+      <span style="font-size:12px; font-weight:900; color:#57534e;">Halaman ${state.adminPage} dari ${totalPages}</span>
+      <button onclick="changeAdminPage(1)" ${state.adminPage === totalPages ? 'disabled' : ''}>Next</button>
+    </div>
+  `;
+
+  list.innerHTML = html;
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function reloadLogos() { document.getElementById('quota-banner').classList.add('hidden'); }
+
+// ============================================================
+// INIT
+// ============================================================
+loadFromStorage();
+fetchFromSheets(); // Mengembalikan fungsi pengambilan Google Sheets asli Anda
+
+// Set empty 0 rating on init
+renderFeedbackStars();
+</script>
+</body>
+</html>
