@@ -467,7 +467,7 @@
 
     <div id="qr-display-section" class="qr-container">
       <div style="font-size:12px; font-weight:900; color:var(--primary); margin-bottom:8px;">SCAN QR UNTUK BAYAR</div>
-      <img id="qr-live-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Menunggu+Pesanan" alt="QR Code" style="width:150px; height:150px;" />
+      <img id="qr-live-img" src="qris.jpeg" alt="QRIS Pembayaran" style="width:150px; height:150px; object-fit:contain;" />
     </div>
 
     <div class="payment-section">
@@ -852,16 +852,9 @@ function updateQRAndCheckoutButton() {
   btnText.textContent = finalBill > 0 ? `Checkout Pesanan - Rp ${finalBill.toLocaleString('id-ID')}` : 'Checkout Pesanan';
   
   const qrDisplay = document.getElementById('qr-display-section');
-  const qrImg = document.getElementById('qr-live-img');
   
   if (state.paymentMethod === 'QR') {
     qrDisplay.classList.remove('hidden');
-    if (finalBill > 0) {
-      // Dinamis generate berdasarkan total
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Total+Bayar+Rp+${finalBill}`;
-    } else {
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Keranjang+Kosong`;
-    }
   } else {
     qrDisplay.classList.add('hidden');
   }
