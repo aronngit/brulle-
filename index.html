@@ -748,3 +748,322 @@ function renderStockDisplay() {
   const el = document.getElementById('stock-display');
   if (state.dailyStock !== null) {
     el.style.display = 'block';
+    el.textContent = 'Sisa Stok Harian: ' + state.dailyStock;
+  } else {
+    el.style.display = 'none';
+  }
+  
+  document.getElementById('qty-display').textContent = state.quantity;
+  document.getElementById('qty-minus').disabled = state.quantity <= 1;
+  const plusBtn = document.getElementById('qty-plus');
+  
+  if (state.dailyStock !== null && state.quantity >= state.dailyStock) {
+    plusBtn.disabled = true;
+  } else {
+    plusBtn.disabled = false;
+  }
+}
+
+function changeQty(delta) {
+  const newQty = state.quantity + delta;
+  if (newQty < 1) return;
+  if (delta > 0 && state.dailyStock !== null && newQty > state.dailyStock) {
+    alert('Maaf, kuota stok porsi tidak mencukupi.'); return;
+  }
+  state.quantity = newQty;
+  renderStockDisplay();
+}
+
+// SISTEM KERANJANG BELANJA (CART)
+function addToCart() {
+  const name = document.getElementById('customer-name-input').value.trim();
+  if (!name) { alert('Tolong lengkapi Identitas Pemesan terlebih dahulu.'); return; }
+
+  const stockNeeded = state.selectedMenu === 'Bundle' ? state.quantity * 2 : state.quantity;
+  if (state.dailyStock !== null && stockNeeded > state.dailyStock) {
+    alert('Maaf, kuota porsi harian tidak mencukupi sisa pesanan ini.'); return;
+  }
+
+  const price = MENU_PRICES[state.selectedMenu];
+  const item = {
+    menu: state.selectedMenu,
+    qty: state.quantity,
+    sauces: [...state.selectedSauces],
+    price: price * state.quantity,
+    profit: state.quantity * (price - (state.selectedMenu === 'Bundle' ? 12000 : 6000))
+  };
+
+  state.cart.push(item);
+
+  if (state.dailyStock !== null) {
+    state.dailyStock -= stockNeeded;
+  }
+
+  state.quantity = 1;
+  state.selectedSauces = [];
+  renderOrderPage();
+  renderCartUI();
+}
+
+function renderCartUI() {
+  const list = document.getElementById('cart-list');
+  const totalEl = document.getElementById('cart-grand-total');
+  
+  if (state.cart.length === 0) {
+    list.innerHTML = '<p style="font-size:12px; font-style:italic; color:#a8a29e; text-align:center;">Keranjang Anda masih kosong.</p>';
+    totalEl.textContent = 'Rp 0';
+  } else {
+    let grandTotal = 0;
+    list.innerHTML = state.cart.map((c, i) => {
+      grandTotal += c.price;
+      return `
+        <div class="cart-item">
+          <div>
+            <div style="font-weight:900; font-size:12px; color:#1c1917;">${c.menu} (${c.qty}x)</div>
+            <div style="font-size:10px; color:#a8a29e;">Saus: ${c.sauces.length > 0 ? c.sauces.join(', ') : 'Tanpa Saus'}</div>
+          </div>
+          <div style="font-weight:900; font-size:13px; color:var(--primary);">Rp ${c.price.toLocaleString('id-ID')}</div>
+        </div>
+      `;
+    }).join('');
+    totalEl.textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
+  }
+  
+  updateQRAndCheckoutButton();
+}
+
+function selectPayment(method, btn) {
+  state.paymentMethod = method;
+  const tabs = document.getElementById('payment-tabs').querySelectorAll('.menu-tab');
+  tabs.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateQRAndCheckoutButton();
+}
+
+function updateQRAndCheckoutButton() {
+  const finalBill = state.cart.reduce((sum, c) => sum + c.price, 0);
+  const btnText = document.getElementById('pay-btn-text');
+  btnText.textContent = finalBill > 0 ? `Checkout Pesanan - Rp ${finalBill.toLocaleString('id-ID')}` : 'Checkout Pesanan';
+  
+  const qrDisplay = document.getElementById('qr-display-section');
+  
+  if (state.paymentMethod === 'QR') {
+    qrDisplay.classList.remove('hidden');
+  } else {
+    qrDisplay.classList.add('hidden');
+  }
+}
+
+function handleOrderCheckout() {
+  if (state.cart.length === 0) { alert('Keranjang Anda kosong! Tambahkan menu terlebih dahulu.'); return; }
+  
+  const name = document.getElementById('customer-name-input').value.trim();
+  const totalPrice = state.cart.reduce((sum, c) => sum + c.price, 0);
+  const totalProfit = state.cart.reduce((sum, c) => sum + c.profit, 0);
+  const totalQty = state.cart.reduce((sum, c) => sum + c.qty, 0);
+  const itemsDesc = state.cart.map(c => `${c.menu} (${c.qty}x)`).join(', ');
+  const allSauces = state.cart.flatMap(c => c.sauces);
+
+  const order = {
+    id: Math.random().toString(36).substr(2,9),
+    date: new Date(),
+    customerName: name,
+    menuItem: itemsDesc,
+    quantity: totalQty,
+    totalPrice: totalPrice,
+    sauces: allSauces,
+    paymentMethod: state.paymentMethod,
+    status: 'Success',
+    profit: totalProfit
+  };
+
+  state.purchaseHistory.unshift(order);
+  saveToStorage();
+  sendDataToSheets('addOrder', order);
+
+  document.getElementById('rc-customer').textContent = order.customerName;
+  document.getElementById('rc-payment').textContent = order.paymentMethod;
+  document.getElementById('rc-items').textContent = order.menuItem;
+  document.getElementById('rc-total').textContent = 'Rp ' + order.totalPrice.toLocaleString('id-ID');
+  document.getElementById('success-desc').textContent = 'Pesanan lezat Anda akan segera kami racik. Mohon tunggu sebentar ya!';
+  
+  // Bersihkan data setelah sukses
+  state.cart = [];
+  state.paymentMethod = 'QR';
+  showPage('success-page');
+}
+
+function resetOrder() {
+  document.getElementById('customer-name-input').value = '';
+  renderCartUI();
+  showPage('order-page');
+  renderOrderPage();
+}
+
+// ============================================================
+// FEEDBACK SYSTEM (Rating Default 0 & Recorded Customer)
+// ============================================================
+function renderFeedbackStars() {
+  const row = document.getElementById('feedback-stars');
+  row.innerHTML = [1,2,3,4,5].map(s => `
+    <button class="star-btn ${s <= state.feedbackRating ? 'active' : ''}" onclick="setFeedbackRating(${s})">
+      <svg viewBox="0 0 24 24" fill="${s <= state.feedbackRating ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+    </button>
+  `).join('');
+}
+
+function setFeedbackRating(r) {
+  state.feedbackRating = r;
+  renderFeedbackStars();
+}
+
+function submitFeedback() {
+  const msg = document.getElementById('feedback-msg').value.trim();
+  const name = document.getElementById('customer-name-input').value.trim() || "Anonim Pelanggan"; // Customer Record
+  if (!msg) { alert('Silakan tulis ulasan Anda.'); return; }
+
+  const fb = {
+    id: Math.random().toString(36).substr(2,9),
+    date: new Date(),
+    customerName: name,
+    message: msg,
+    rating: state.feedbackRating
+  };
+  
+  state.feedbacks.unshift(fb);
+  saveToStorage();
+  sendDataToSheets('addFeedback', fb);
+  
+  document.getElementById('feedback-msg').value = '';
+  state.feedbackRating = 0; // Reset ke 0
+  renderFeedbackStars();
+  alert('Terima kasih! Ulasan & rating Anda berhasil terekam.');
+}
+
+// ============================================================
+// ADMIN PAGE & PAGINATION
+// ============================================================
+function renderAdminPage() {
+  const d = document.getElementById('current-stock-display');
+  const v = document.getElementById('current-stock-val');
+  if (state.dailyStock !== null) { d.classList.remove('hidden'); v.textContent = state.dailyStock; } 
+  else { d.classList.add('hidden'); }
+  renderAdminList();
+}
+
+function setStock() {
+  const val = parseInt(document.getElementById('admin-stock-input').value);
+  if (isNaN(val) || val < 0) return;
+  state.dailyStock = val;
+  localStorage.setItem('bb_stock_' + todayStr(), val);
+  document.getElementById('admin-stock-input').value = '';
+  renderAdminPage();
+}
+
+function setAdminTab(tab) {
+  state.adminTab = tab;
+  state.adminPage = 1; // Reset halaman
+  state.adminDateFilter = '';
+  document.getElementById('admin-date-filter').value = '';
+  ['today','feedback'].forEach(t => document.getElementById('tab-' + t).className = 'admin-tab');
+  const map = { orders: 'today', feedback: 'feedback' };
+  document.getElementById('tab-' + map[tab]).classList.add('active-' + map[tab]);
+  document.getElementById('date-filter-card').classList.toggle('hidden', tab !== 'orders');
+  renderAdminList();
+}
+
+function clearDateFilter() {
+  state.adminDateFilter = '';
+  document.getElementById('admin-date-filter').value = '';
+  state.adminPage = 1;
+  renderAdminList();
+}
+
+function changeAdminPage(dir) {
+  state.adminPage += dir;
+  renderAdminList();
+}
+
+function renderAdminList() {
+  state.adminDateFilter = document.getElementById('admin-date-filter') ? document.getElementById('admin-date-filter').value : '';
+  const list = document.getElementById('admin-list');
+  
+  if (state.adminTab === 'feedback') {
+    if (state.feedbacks.length === 0) { list.innerHTML = `<p style="text-align:center; color:#a8a29e; font-size:12px;">Belum ada ulasan.</p>`; return; }
+    list.innerHTML = state.feedbacks.map(f => `
+      <div class="order-admin-card" style="border-left:4px solid var(--primary);">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-size:11px; color:#a8a29e;">${new Date(f.date).toLocaleDateString('id-ID')}</span>
+          <span style="color:#facc15; font-weight:900;">★ ${f.rating}</span>
+        </div>
+        <div style="font-weight:900; margin-bottom:4px;">${f.customerName}</div>
+        <div style="font-size:13px; color:#57534e;">"${f.message}"</div>
+      </div>
+    `).join('');
+    return;
+  }
+  
+  let orders = state.purchaseHistory;
+  if (state.adminDateFilter) {
+    orders = orders.filter(o => {
+      const d = new Date(o.date);
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` === state.adminDateFilter;
+    });
+  }
+
+  if (orders.length === 0) {
+    list.innerHTML = `<p style="text-align:center; color:#a8a29e; font-size:12px;">Belum ada pesanan terdaftar.</p>`;
+    return;
+  }
+
+  // LOGIKA PAGINATION
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(orders.length / itemsPerPage) || 1;
+  const start = (state.adminPage - 1) * itemsPerPage;
+  const paginatedOrders = orders.slice(start, start + itemsPerPage);
+
+  let html = paginatedOrders.map(o => `
+    <div class="order-admin-card">
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid #f5f5f4; padding-bottom:6px;">
+        <span style="font-size:11px; font-weight:700; color:#a8a29e;">ID: ${o.id}</span>
+        <span style="font-size:11px; color:var(--primary); font-weight:900;">${new Date(o.date).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>
+      </div>
+      <div style="font-weight:900; margin-bottom:4px;">Kustomer: ${o.customerName}</div>
+      <div style="font-size:12px; color:#57534e; margin-bottom:8px;">Menu: ${o.menuItem}</div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:10px; background:#fffaf0; padding:2px 8px; border-radius:99px; border:1px solid var(--primary); color:var(--primary); font-weight:900;">${o.paymentMethod}</span>
+        <span style="font-weight:900; color:#1c1917;">Rp ${o.totalPrice.toLocaleString('id-ID')}</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Kontrol Pagination
+  html += `
+    <div class="pagination-controls">
+      <button onclick="changeAdminPage(-1)" ${state.adminPage === 1 ? 'disabled' : ''}>Prev</button>
+      <span style="font-size:12px; font-weight:900; color:#57534e;">Halaman ${state.adminPage} dari ${totalPages}</span>
+      <button onclick="changeAdminPage(1)" ${state.adminPage === totalPages ? 'disabled' : ''}>Next</button>
+    </div>
+  `;
+
+  list.innerHTML = html;
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function reloadLogos() { document.getElementById('quota-banner').classList.add('hidden'); }
+
+// ============================================================
+// INIT
+// ============================================================
+loadFromStorage();
+fetchFromSheets(); // Mengembalikan fungsi pengambilan Google Sheets asli Anda
+
+// Set empty 0 rating on init
+renderFeedbackStars();
+</script>
+</body>
+</html>
