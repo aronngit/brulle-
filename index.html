@@ -218,7 +218,7 @@
     .product-title-row h2 { font-size: 28px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
     .product-subtitle { color: var(--secondary); font-weight: 700; font-size: 15px; font-style: italic; margin-top: 6px; }
     .price-tag { text-align: right; }
-    .price-amount { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1; white-space: nowrap; }
+    .price-amount { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1; white-space: nowrap; /* Teks tidak turun ke bawah */ }
     .price-per { font-size: 9px; font-weight: 900; color: #a8a29e; text-transform: uppercase; margin-top: 4px; }
 
     /* SAUCE SEGMENTS */
@@ -302,6 +302,11 @@
     ================================ */
     .modal-overlay { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; }
     .modal-box { background: #fff; border-radius: var(--radius-xl); padding: 32px; max-width: 380px; width: 100%; border: 4px solid #fff; }
+
+    /* GAYA BARU UNTUK HEADER LOGOS YANG DIPESAN */
+    .main-logos-container { display: flex; justify-content: center; align-items: center; gap: 20px; position: relative; z-index: 2; margin-bottom: 20px; }
+    .main-logo-item { border-radius: 9999px; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .main-logo-item img { width: 100%; height: 100%; object-fit: contain; }
   </style>
 </head>
 <body>
@@ -316,6 +321,9 @@
     <div class="logo-row">
       <div class="logo-circle yellow logo-glow">
         <img id="login-logo-brulee" src="logo bom.jpeg" alt="Brulee Bomb Logo">
+      </div>
+      <div class="logo-circle white">
+        <img id="login-logo-hikari" src="logosusi.jpeg" alt="Hikari Sushi Logo">
       </div>
     </div>
     <h1 style="font-size:26px;font-weight:900;margin-bottom:8px;">Brulee Bomb x Hikari Sushi</h1>
@@ -359,13 +367,16 @@
 <div id="order-page" class="page-wrapper hidden">
   <div class="page-inner">
     <div class="header-section">
-      <div class="side-logos-left">
-        <div class="side-logo-box"><img id="istts-logo" src="mbdlogo.jpeg" alt="ISTTS Logo"></div>
-        <div class="side-logo-box"><img id="aicampus-logo" src="sttslogo.jpeg" alt="AI Campus Logo"></div>
-      </div>
-
-      <div class="header-logos">
-        <div class="header-logo-circle yellow logo-glow"><img id="header-logo-brulee" src="logo bom.jpeg" alt="Brulee Bomb Logo"></div>
+      <div class="main-logos-container">
+        <div class="main-logo-item" style="width:120px; height:120px; background:#fff; border:1px solid #e7e5e4; padding:4px;">
+          <img id="istts-logo" src="mbdlogo.jpeg" alt="ISTTS Logo">
+        </div>
+        <div class="main-logo-item yellow logo-glow" style="width:100px; height:100px;">
+          <img id="header-logo-brulee" src="logo bom.jpeg" alt="Brulee Bomb Logo">
+        </div>
+        <div class="main-logo-item" style="width:120px; height:120px; background:#fff; border:1px solid #e7e5e4; padding:4px;">
+          <img id="aicampus-logo" src="sttslogo.jpeg" alt="AI Campus Logo">
+        </div>
       </div>
 
       <div class="side-actions-right">
@@ -393,7 +404,7 @@
         <div class="menu-tabs">
           <button class="menu-tab active" onclick="selectMenu('Brulee Bomb',this)">Brulee Bomb</button>
           <button class="menu-tab" onclick="selectMenu('Hikari Sushi',this)">Hikari Sushi</button>
-          <button class="menu-tab" onclick="selectMenu('Bundle',this)">Bundle</button>
+          <button class="menu-tab" onclick="selectMenu('Bundle',this)">Bundle Spesial</button>
         </div>
 
         <div class="product-title-row">
@@ -412,7 +423,6 @@
           <div class="sauce-grid">
             <button class="sauce-btn" data-sauce="Saus Sambal" onclick="toggleSauce('Saus Sambal', this)">Saus Sambal</button>
             <button class="sauce-btn" data-sauce="Saus Tomat" onclick="toggleSauce('Saus Tomat', this)">Saus Tomat</button>
-            <button class="sauce-btn" data-sauce="Saus Mayonais" onclick="toggleSauce('Saus Mayonais', this)">Saus Mayonais</button>
           </div>
         </div>
 
@@ -464,7 +474,10 @@
 
     <div id="qr-display-section" class="qr-container">
       <div style="font-size:12px; font-weight:900; color:var(--primary); margin-bottom:8px;">SCAN QR UNTUK BAYAR</div>
-      <img id="qr-live-img" src="qr.jpeg" alt="QRIS Pembayaran" style="width:150px; height:150px; object-fit:contain;" />
+      <img id="qr-live-img" src="qr.jpeg" alt="QRIS Pembayaran" style="width:350px; height:350px; object-fit:contain;" />
+      <button class="btn-outline download-btn" onclick="downloadQRCode()" style="width: auto; padding: 10px 20px; font-size: 14px; margin-top: 10px;">
+        Download QR
+      </button>
     </div>
 
     <div class="payment-section">
@@ -598,7 +611,7 @@ let state = {
   selectedSauces: [],
   customerName: '',
   dailyStock: null,
-  feedbackRating: 0, 
+  feedbackRating: 0, // DEFAULT 0 BINTANG 
   adminTab: 'orders',
   adminDateFilter: '',
   purchaseHistory: [],
@@ -608,21 +621,16 @@ let state = {
   aiCampusLogo: 'sttslogo.jpeg',
   isttsLogo: 'mbdlogo.jpeg',
   productImage: 'brulle.png',
-  cart: [], 
-  adminPage: 1, 
+  cart: [], // STATE BARU UNTUK ADD TO CART
+  adminPage: 1, // PAGINATION ADMIN
   paymentMethod: 'QR'
 };
 
 const MENU_PRICES = { 'Brulee Bomb': 10000, 'Hikari Sushi': 8000, 'Bundle': 18000 };
 const MENU_SUBTITLES = {
   'Brulee Bomb': 'Cheese & Sausage Filled',
-  'Hikari Sushi': 'Sushi berisi ayam nugget dan timun', 
+  'Hikari Sushi': 'Sushi berisi ayam nugget dan timun', // Menjaga sesuai Ledger & Original
   'Bundle': '1 Porsi Brulee Bomb + 1 Porsi Hikari Sushi'
-};
-const MENU_PERS = {
-  'Brulee Bomb': 'Per 5 Pcs',
-  'Hikari Sushi': 'Per Porsi',
-  'Bundle': 'Per Paket'
 };
 const PRODUCT_IMAGES = { 'Brulee Bomb': 'brulle.png', 'Hikari Sushi': 'sushi.png', 'Bundle': 'combo.png' };
 
@@ -679,7 +687,7 @@ function backToSelection() {
 
 function tryAdminLogin() {
   const pw = document.getElementById('admin-pw-input').value;
-  if (pw === 'atmin') { 
+  if (pw === 'atmin') { // KEMBALI KE PASSWORD ASLI (Sesuai kode awal Anda)
     state.userRole = 'admin';
     showPage('admin-page');
     renderAdminPage();
@@ -699,14 +707,14 @@ function doLogout() {
 // ORDER PAGE LOGIC (CART & QR)
 // ============================================================
 function renderOrderPage() {
-  document.getElementById('header-logo-brulee').src = state.logoImage;
-  document.getElementById('istts-logo').src = state.isttsLogo;
-  document.getElementById('aicampus-logo').src = state.aiCampusLogo;
+  // Pengaturan logo di header tidak lagi menggunakan fungsi ini karena menggunakan tata letak div baru di HTML
+  // document.getElementById('istts-logo').src = state.isttsLogo;
+  // document.getElementById('header-logo-brulee').src = state.logoImage;
+  // document.getElementById('aicampus-logo').src = state.aiCampusLogo;
 
   document.getElementById('menu-title').textContent = state.selectedMenu;
   document.getElementById('menu-subtitle').textContent = MENU_SUBTITLES[state.selectedMenu];
   document.getElementById('price-display').textContent = 'Rp ' + MENU_PRICES[state.selectedMenu].toLocaleString('id-ID');
-  document.getElementById('price-per').textContent = MENU_PERS[state.selectedMenu];
   
   const img = document.getElementById('product-img');
   img.style.opacity = '0';
@@ -719,7 +727,7 @@ function renderOrderPage() {
   } else if (state.selectedMenu === 'Hikari Sushi') {
     document.getElementById('sauce-brulee-section').classList.add('hidden');
     document.getElementById('sauce-sushi-section').classList.remove('hidden');
-  } else { 
+  } else { // Bundle show both
     document.getElementById('sauce-brulee-section').classList.remove('hidden');
     document.getElementById('sauce-sushi-section').classList.remove('hidden');
   }
@@ -749,7 +757,7 @@ function toggleSauce(sauce, btn) {
   const idx = state.selectedSauces.indexOf(sauce);
   if (idx >= 0) state.selectedSauces.splice(idx, 1);
   else state.selectedSauces.push(sauce);
-  renderOrderPage(); 
+  renderOrderPage(); // refresh buttons
 }
 
 function renderStockDisplay() {
@@ -848,7 +856,6 @@ function selectPayment(method, btn) {
   updateQRAndCheckoutButton();
 }
 
-// METODE PEMBAYARAN DENGAN DISPLAY TOMBOL CHECKOUT OTOMATIS TOTAL HARGA
 function updateQRAndCheckoutButton() {
   const finalBill = state.cart.reduce((sum, c) => sum + c.price, 0);
   const btnText = document.getElementById('pay-btn-text');
@@ -861,6 +868,19 @@ function updateQRAndCheckoutButton() {
   } else {
     qrDisplay.classList.add('hidden');
   }
+}
+
+// FUNGSI BARU UNTUK DOWNLOAD QR CODE
+function downloadQRCode() {
+  const qrImg = document.getElementById('qr-live-img');
+  if (!qrImg) return;
+  const imgUrl = qrImg.src;
+  const link = document.createElement('a');
+  link.href = imgUrl;
+  link.download = 'QR_Payment.jpeg'; // Nama file download
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
 function handleOrderCheckout() {
@@ -896,6 +916,7 @@ function handleOrderCheckout() {
   document.getElementById('rc-total').textContent = 'Rp ' + order.totalPrice.toLocaleString('id-ID');
   document.getElementById('success-desc').textContent = 'Pesanan lezat Anda akan segera kami racik. Mohon tunggu sebentar ya!';
   
+  // Bersihkan data setelah sukses
   state.cart = [];
   state.paymentMethod = 'QR';
   showPage('success-page');
@@ -909,7 +930,7 @@ function resetOrder() {
 }
 
 // ============================================================
-// FEEDBACK SYSTEM
+// FEEDBACK SYSTEM (Rating Default 0 & Recorded Customer)
 // ============================================================
 function renderFeedbackStars() {
   const row = document.getElementById('feedback-stars');
@@ -929,7 +950,7 @@ function setFeedbackRating(r) {
 
 function submitFeedback() {
   const msg = document.getElementById('feedback-msg').value.trim();
-  const name = document.getElementById('customer-name-input').value.trim() || "Anonim Pelanggan"; 
+  const name = document.getElementById('customer-name-input').value.trim() || "Anonim Pelanggan"; // Customer Record
   if (!msg) { alert('Silakan tulis ulasan Anda.'); return; }
 
   const fb = {
@@ -945,7 +966,7 @@ function submitFeedback() {
   sendDataToSheets('addFeedback', fb);
   
   document.getElementById('feedback-msg').value = '';
-  state.feedbackRating = 0; 
+  state.feedbackRating = 0; // Reset ke 0
   renderFeedbackStars();
   alert('Terima kasih! Ulasan & rating Anda berhasil terekam.');
 }
@@ -972,7 +993,7 @@ function setStock() {
 
 function setAdminTab(tab) {
   state.adminTab = tab;
-  state.adminPage = 1; 
+  state.adminPage = 1; // Reset halaman
   state.adminDateFilter = '';
   document.getElementById('admin-date-filter').value = '';
   ['today','feedback'].forEach(t => document.getElementById('tab-' + t).className = 'admin-tab');
@@ -1047,6 +1068,7 @@ function renderAdminList() {
     </div>
   `).join('');
 
+  // Kontrol Pagination
   html += `
     <div class="pagination-controls">
       <button onclick="changeAdminPage(-1)" ${state.adminPage === 1 ? 'disabled' : ''}>Prev</button>
@@ -1067,7 +1089,9 @@ function reloadLogos() { document.getElementById('quota-banner').classList.add('
 // INIT
 // ============================================================
 loadFromStorage();
-fetchFromSheets(); 
+fetchFromSheets(); // Mengembalikan fungsi pengambilan Google Sheets asli Anda
+
+// Set empty 0 rating on init
 renderFeedbackStars();
 </script>
 </body>
