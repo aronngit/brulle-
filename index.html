@@ -218,7 +218,7 @@
     .product-title-row h2 { font-size: 28px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
     .product-subtitle { color: var(--secondary); font-weight: 700; font-size: 15px; font-style: italic; margin-top: 6px; }
     .price-tag { text-align: right; }
-    .price-amount { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1; white-space: nowrap; /* Teks tidak turun ke bawah */ }
+    .price-amount { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1; white-space: nowrap; }
     .price-per { font-size: 9px; font-weight: 900; color: #a8a29e; text-transform: uppercase; margin-top: 4px; }
 
     /* SAUCE SEGMENTS */
@@ -392,6 +392,8 @@
         <div class="section-label">Pilih Menu Utama</div>
         <div class="menu-tabs">
           <button class="menu-tab active" onclick="selectMenu('Brulee Bomb',this)">Brulee Bomb</button>
+          <button class="menu-tab" onclick="selectMenu('Hikari Sushi',this)">Hikari Sushi</button>
+          <button class="menu-tab" onclick="selectMenu('Bundle',this)">Bundle</button>
         </div>
 
         <div class="product-title-row">
@@ -596,7 +598,7 @@ let state = {
   selectedSauces: [],
   customerName: '',
   dailyStock: null,
-  feedbackRating: 0, // DEFAULT 0 BINTANG 
+  feedbackRating: 0, 
   adminTab: 'orders',
   adminDateFilter: '',
   purchaseHistory: [],
@@ -606,16 +608,21 @@ let state = {
   aiCampusLogo: 'sttslogo.jpeg',
   isttsLogo: 'mbdlogo.jpeg',
   productImage: 'brulle.png',
-  cart: [], // STATE BARU UNTUK ADD TO CART
-  adminPage: 1, // PAGINATION ADMIN
+  cart: [], 
+  adminPage: 1, 
   paymentMethod: 'QR'
 };
 
 const MENU_PRICES = { 'Brulee Bomb': 10000, 'Hikari Sushi': 8000, 'Bundle': 18000 };
 const MENU_SUBTITLES = {
   'Brulee Bomb': 'Cheese & Sausage Filled',
-  'Hikari Sushi': 'Sushi berisi ayam nugget dan timun', // Menjaga sesuai Ledger & Original
+  'Hikari Sushi': 'Sushi berisi ayam nugget dan timun', 
   'Bundle': '1 Porsi Brulee Bomb + 1 Porsi Hikari Sushi'
+};
+const MENU_PERS = {
+  'Brulee Bomb': 'Per 5 Pcs',
+  'Hikari Sushi': 'Per Porsi',
+  'Bundle': 'Per Paket'
 };
 const PRODUCT_IMAGES = { 'Brulee Bomb': 'brulle.png', 'Hikari Sushi': 'sushi.png', 'Bundle': 'combo.png' };
 
@@ -672,7 +679,7 @@ function backToSelection() {
 
 function tryAdminLogin() {
   const pw = document.getElementById('admin-pw-input').value;
-  if (pw === 'atmin') { // KEMBALI KE PASSWORD ASLI (Sesuai kode awal Anda)
+  if (pw === 'atmin') { 
     state.userRole = 'admin';
     showPage('admin-page');
     renderAdminPage();
@@ -699,6 +706,7 @@ function renderOrderPage() {
   document.getElementById('menu-title').textContent = state.selectedMenu;
   document.getElementById('menu-subtitle').textContent = MENU_SUBTITLES[state.selectedMenu];
   document.getElementById('price-display').textContent = 'Rp ' + MENU_PRICES[state.selectedMenu].toLocaleString('id-ID');
+  document.getElementById('price-per').textContent = MENU_PERS[state.selectedMenu];
   
   const img = document.getElementById('product-img');
   img.style.opacity = '0';
@@ -711,7 +719,7 @@ function renderOrderPage() {
   } else if (state.selectedMenu === 'Hikari Sushi') {
     document.getElementById('sauce-brulee-section').classList.add('hidden');
     document.getElementById('sauce-sushi-section').classList.remove('hidden');
-  } else { // Bundle show both
+  } else { 
     document.getElementById('sauce-brulee-section').classList.remove('hidden');
     document.getElementById('sauce-sushi-section').classList.remove('hidden');
   }
@@ -741,7 +749,7 @@ function toggleSauce(sauce, btn) {
   const idx = state.selectedSauces.indexOf(sauce);
   if (idx >= 0) state.selectedSauces.splice(idx, 1);
   else state.selectedSauces.push(sauce);
-  renderOrderPage(); // refresh buttons
+  renderOrderPage(); 
 }
 
 function renderStockDisplay() {
@@ -840,6 +848,7 @@ function selectPayment(method, btn) {
   updateQRAndCheckoutButton();
 }
 
+// METODE PEMBAYARAN DENGAN DISPLAY TOMBOL CHECKOUT OTOMATIS TOTAL HARGA
 function updateQRAndCheckoutButton() {
   const finalBill = state.cart.reduce((sum, c) => sum + c.price, 0);
   const btnText = document.getElementById('pay-btn-text');
@@ -887,7 +896,6 @@ function handleOrderCheckout() {
   document.getElementById('rc-total').textContent = 'Rp ' + order.totalPrice.toLocaleString('id-ID');
   document.getElementById('success-desc').textContent = 'Pesanan lezat Anda akan segera kami racik. Mohon tunggu sebentar ya!';
   
-  // Bersihkan data setelah sukses
   state.cart = [];
   state.paymentMethod = 'QR';
   showPage('success-page');
@@ -901,7 +909,7 @@ function resetOrder() {
 }
 
 // ============================================================
-// FEEDBACK SYSTEM (Rating Default 0 & Recorded Customer)
+// FEEDBACK SYSTEM
 // ============================================================
 function renderFeedbackStars() {
   const row = document.getElementById('feedback-stars');
@@ -921,7 +929,7 @@ function setFeedbackRating(r) {
 
 function submitFeedback() {
   const msg = document.getElementById('feedback-msg').value.trim();
-  const name = document.getElementById('customer-name-input').value.trim() || "Anonim Pelanggan"; // Customer Record
+  const name = document.getElementById('customer-name-input').value.trim() || "Anonim Pelanggan"; 
   if (!msg) { alert('Silakan tulis ulasan Anda.'); return; }
 
   const fb = {
@@ -937,7 +945,7 @@ function submitFeedback() {
   sendDataToSheets('addFeedback', fb);
   
   document.getElementById('feedback-msg').value = '';
-  state.feedbackRating = 0; // Reset ke 0
+  state.feedbackRating = 0; 
   renderFeedbackStars();
   alert('Terima kasih! Ulasan & rating Anda berhasil terekam.');
 }
@@ -964,7 +972,7 @@ function setStock() {
 
 function setAdminTab(tab) {
   state.adminTab = tab;
-  state.adminPage = 1; // Reset halaman
+  state.adminPage = 1; 
   state.adminDateFilter = '';
   document.getElementById('admin-date-filter').value = '';
   ['today','feedback'].forEach(t => document.getElementById('tab-' + t).className = 'admin-tab');
@@ -1039,7 +1047,6 @@ function renderAdminList() {
     </div>
   `).join('');
 
-  // Kontrol Pagination
   html += `
     <div class="pagination-controls">
       <button onclick="changeAdminPage(-1)" ${state.adminPage === 1 ? 'disabled' : ''}>Prev</button>
@@ -1060,9 +1067,7 @@ function reloadLogos() { document.getElementById('quota-banner').classList.add('
 // INIT
 // ============================================================
 loadFromStorage();
-fetchFromSheets(); // Mengembalikan fungsi pengambilan Google Sheets asli Anda
-
-// Set empty 0 rating on init
+fetchFromSheets(); 
 renderFeedbackStars();
 </script>
 </body>
