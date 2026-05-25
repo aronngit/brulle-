@@ -390,7 +390,7 @@
 
       <div class="product-body">
         <div class="section-label">Pilih Menu Utama</div>
-        <div class="menu-tabs" style="grid-template-columns: 1fr;">
+        <div class="menu-tabs">
           <button class="menu-tab active" onclick="selectMenu('Brulee Bomb',this)">Brulee Bomb</button>
         </div>
 
@@ -410,6 +410,7 @@
           <div class="sauce-grid">
             <button class="sauce-btn" data-sauce="Saus Sambal" onclick="toggleSauce('Saus Sambal', this)">Saus Sambal</button>
             <button class="sauce-btn" data-sauce="Saus Tomat" onclick="toggleSauce('Saus Tomat', this)">Saus Tomat</button>
+            <button class="sauce-btn" data-sauce="Saus Mayonais" onclick="toggleSauce('Saus Mayonais', this)">Saus Mayonais</button>
           </div>
         </div>
 
@@ -747,163 +748,3 @@ function renderStockDisplay() {
   const el = document.getElementById('stock-display');
   if (state.dailyStock !== null) {
     el.style.display = 'block';
-    el.textContent = 'Sisa Stok Harian: ' + state.dailyStock;
-  } else {
-    el.style.display = 'none';
-  }
-  
-  document.getElementById('qty-display').textContent = state.quantity;
-  document.getElementById('qty-minus').disabled = state.quantity <= 1;
-  const plusBtn = document.getElementById('qty-plus');
-  
-  if (state.dailyStock !== null && state.quantity >= state.dailyStock) {
-    plusBtn.disabled = true;
-  } else {
-    plusBtn.disabled = false;
-  }
-}
-
-function changeQty(delta) {
-  const newQty = state.quantity + delta;
-  if (newQty < 1) return;
-  if (delta > 0 && state.dailyStock !== null && newQty > state.dailyStock) {
-    alert('Maaf, kuota stok porsi tidak mencukupi.'); return;
-  }
-  state.quantity = newQty;
-  renderStockDisplay();
-}
-
-// SISTEM KERANJANG BELANJA (CART)
-function addToCart() {
-  const name = document.getElementById('customer-name-input').value.trim();
-  if (!name) { alert('Tolong lengkapi Identitas Pemesan terlebih dahulu.'); return; }
-
-  const stockNeeded = state.selectedMenu === 'Bundle' ? state.quantity * 2 : state.quantity;
-  if (state.dailyStock !== null && stockNeeded > state.dailyStock) {
-    alert('Maaf, kuota porsi harian tidak mencukupi sisa pesanan ini.'); return;
-  }
-
-  const price = MENU_PRICES[state.selectedMenu];
-  const item = {
-    menu: state.selectedMenu,
-    qty: state.quantity,
-    sauces: [...state.selectedSauces],
-    price: price * state.quantity,
-    profit: state.quantity * (price - (state.selectedMenu === 'Bundle' ? 12000 : 6000))
-  };
-
-  state.cart.push(item);
-
-  if (state.dailyStock !== null) {
-    state.dailyStock -= stockNeeded;
-  }
-
-  state.quantity = 1;
-  state.selectedSauces = [];
-  renderOrderPage();
-  renderCartUI();
-}
-
-function renderCartUI() {
-  const list = document.getElementById('cart-list');
-  const totalEl = document.getElementById('cart-grand-total');
-  
-  if (state.cart.length === 0) {
-    list.innerHTML = '<p style="font-size:12px; font-style:italic; color:#a8a29e; text-align:center;">Keranjang Anda masih kosong.</p>';
-    totalEl.textContent = 'Rp 0';
-  } else {
-    let grandTotal = 0;
-    list.innerHTML = state.cart.map((c, i) => {
-      grandTotal += c.price;
-      return `
-        <div class="cart-item">
-          <div>
-            <div style="font-weight:900; font-size:12px; color:#1c1917;">${c.menu} (${c.qty}x)</div>
-            <div style="font-size:10px; color:#a8a29e;">Saus: ${c.sauces.length > 0 ? c.sauces.join(', ') : 'Tanpa Saus'}</div>
-          </div>
-          <div style="font-weight:900; font-size:13px; color:var(--primary);">Rp ${c.price.toLocaleString('id-ID')}</div>
-        </div>
-      `;
-    }).join('');
-    totalEl.textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
-  }
-  
-  updateQRAndCheckoutButton();
-}
-
-function selectPayment(method, btn) {
-  state.paymentMethod = method;
-  const tabs = document.getElementById('payment-tabs').querySelectorAll('.menu-tab');
-  tabs.forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  updateQRAndCheckoutButton();
-}
-
-function updateQRAndCheckoutButton() {
-  const finalBill = state.cart.reduce((sum, c) => sum + c.price, 0);
-  const btnText = document.getElementById('pay-btn-text');
-  btnText.textContent = finalBill > 0 ? `Checkout Pesanan - Rp ${finalBill.toLocaleString('id-ID')}` : 'Checkout Pesanan';
-  
-  const qrDisplay = document.getElementById('qr-display-section');
-  
-  if (state.paymentMethod === 'QR') {
-    qrDisplay.classList.remove('hidden');
-  } else {
-    qrDisplay.classList.add('hidden');
-  }
-}
-
-function handleOrderCheckout() {
-  if (state.cart.length === 0) { alert('Keranjang Anda kosong! Tambahkan menu terlebih dahulu.'); return; }
-  
-  const name = document.getElementById('customer-name-input').value.trim();
-  const totalPrice = state.cart.reduce((sum, c) => sum + c.price, 0);
-  const totalProfit = state.cart.reduce((sum, c) => sum + c.profit, 0);
-  const totalQty = state.cart.reduce((sum, c) => sum + c.qty, 0);
-  const itemsDesc = state.cart.map(c => `${c.menu} (${c.qty}x)`).join(', ');
-  const allSauces = state.cart.flatMap(c => c.sauces);
-
-  const order = {
-    id: Math.random().toString(36).substr(2,9),
-    date: new Date(),
-    customerName: name,
-    menuItem: itemsDesc,
-    quantity: totalQty,
-    totalPrice: totalPrice,
-    sauces: allSauces,
-    paymentMethod: state.paymentMethod,
-    status: 'Success',
-    profit: totalProfit
-  };
-
-  state.purchaseHistory.unshift(order);
-  saveToStorage();
-  sendDataToSheets('addOrder', order);
-
-  document.getElementById('rc-customer').textContent = order.customerName;
-  document.getElementById('rc-payment').textContent = order.paymentMethod;
-  document.getElementById('rc-items').textContent = order.menuItem;
-  document.getElementById('rc-total').textContent = 'Rp ' + order.totalPrice.toLocaleString('id-ID');
-  document.getElementById('success-desc').textContent = 'Pesanan lezat Anda akan segera kami racik. Mohon tunggu sebentar ya!';
-  
-  // Bersihkan data setelah sukses
-  state.cart = [];
-  state.paymentMethod = 'QR';
-  showPage('success-page');
-}
-
-function resetOrder() {
-  document.getElementById('customer-name-input').value = '';
-  renderCartUI();
-  showPage('order-page');
-  renderOrderPage();
-}
-
-// ============================================================
-// FEEDBACK SYSTEM (Rating Default 0 & Recorded Customer)
-// ============================================================
-function renderFeedbackStars() {
-  const row = document.getElementById('feedback-stars');
-  row.innerHTML = [1,2,3,4,5].map(s => `
-    <button class="star-btn ${s <= state.feedbackRating ? 'active' : ''}" onclick="setFeedbackRating(${s})">
-      <svg viewBox="0 0 24 24" fill="${
