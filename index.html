@@ -210,7 +210,7 @@
     .menu-tabs { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 24px; }
     .menu-tab {
       padding: 12px 8px; border-radius: 1rem; border: 2px solid #e7e5e4; background: #fff;
-      font-weight: 900; font-size: 10px; text-transform: uppercase; cursor: pointer; color: #57534e;
+      font-weight: 900; font-size: 11px; text-transform: uppercase; cursor: pointer; color: #57534e;
     }
     .menu-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
@@ -218,7 +218,7 @@
     .product-title-row h2 { font-size: 28px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
     .product-subtitle { color: var(--secondary); font-weight: 700; font-size: 15px; font-style: italic; margin-top: 6px; }
     .price-tag { text-align: right; }
-    .price-amount { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1; white-space: nowrap; /* Teks tidak turun ke bawah */ }
+    .price-amount { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1; white-space: nowrap; }
     .price-per { font-size: 9px; font-weight: 900; color: #a8a29e; text-transform: uppercase; margin-top: 4px; }
 
     /* SAUCE SEGMENTS */
@@ -340,7 +340,7 @@
 
       <div class="brand-detail-box">
         <div class="brand-detail-title">📋 Brand Detail</div>
-        <p style="font-size:12px; color:#57534e; font-weight:600;">Menghadirkan mahakarya kuliner premium Brulee Bomb untuk menemani waktu santai Anda.</p>
+        <p style="font-size:12px; color:#57534e; font-weight:600;">Menghadirkan mahakarya kuliner premium Brulee Bomb yang krispi dengan lumeran keju mozarella untuk menemani waktu santai Anda.</p>
       </div>
     </div>
 
@@ -469,12 +469,7 @@
 
     <div id="qr-display-section" class="qr-container">
       <div style="font-size:12px; font-weight:900; color:var(--primary); margin-bottom:8px;">SCAN QR UNTUK BAYAR</div>
-      <img id="qr-live-img" src="qr.jpeg" alt="QRIS Pembayaran" style="width:430px; height:430px; object-fit:contain;" />
-      
-      <button class="btn-primary" onclick="alert('Silakan pindai kode QR di atas untuk menyelesaikan transaksi Anda.')" style="margin-top: 15px; font-size: 14px; padding: 12px;">
-        Konfirmasi Pembayaran QR
-      </button>
-
+      <img id="qr-live-img" src="qr.jpeg" alt="QRIS Pembayaran" style="width:350px; height:350px; object-fit:contain;" />
       <button class="btn-outline download-btn" onclick="downloadQRCode()" style="width: auto; padding: 10px 20px; font-size: 14px; margin-top: 10px;">
         Download QR
       </button>
@@ -489,7 +484,7 @@
     <div style="padding: 0 24px 32px;">
       <div style="background:#fff; padding:20px; border-radius:1.5rem; border:2px solid #e7e5e4;">
         <div class="keunggulan-title">Mengapa Memilih Kami?</div>
-        <p class="keunggulan-teks">Rasakan ledakan keju mozarella premium dalam setiap balutan Brulee Bomb krispi kami. Pengalaman rasa yang diracik khusus untuk memuaskan lidah Anda!</p>
+        <p class="keunggulan-teks">Rasakan ledakan keju mozarella premium dalam setiap balutan Brulee Bomb krispi kami yang diolah dari bahan segar pilihan. Pengalaman rasa yang diracik khusus untuk memuaskan lidah Anda!</p>
       </div>
     </div>
 
@@ -564,7 +559,7 @@
 
 <script>
 // ============================================================
-// GOOGLE APPS SCRIPT INTEGRATION (DIPERTAHANKAN 100%)
+// GOOGLE APPS SCRIPT INTEGRATION
 // ============================================================
 const APPSCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNs90cBolHOzn3hhjgogmk6_vRJKZt7xviOKxUnKUE3gFq4W7FlpVj6MHmNnLlopmi6w/exec";
 
@@ -611,7 +606,7 @@ let state = {
   selectedSauces: [],
   customerName: '',
   dailyStock: null,
-  feedbackRating: 0, // DEFAULT 0 BINTANG 
+  feedbackRating: 0, 
   adminTab: 'orders',
   adminDateFilter: '',
   purchaseHistory: [],
@@ -620,8 +615,8 @@ let state = {
   aiCampusLogo: 'sttslogo.jpeg',
   isttsLogo: 'mbdlogo.jpeg',
   productImage: 'brulle.png',
-  cart: [], // STATE BARU UNTUK ADD TO CART
-  adminPage: 1, // PAGINATION ADMIN
+  cart: [], 
+  adminPage: 1, 
   paymentMethod: 'QR'
 };
 
@@ -684,7 +679,7 @@ function backToSelection() {
 
 function tryAdminLogin() {
   const pw = document.getElementById('admin-pw-input').value;
-  if (pw === 'atmin') { // KEMBALI KE PASSWORD ASLI (Sesuai kode awal Anda)
+  if (pw === 'atmin') { 
     state.userRole = 'admin';
     showPage('admin-page');
     renderAdminPage();
@@ -712,7 +707,7 @@ function renderOrderPage() {
   img.style.opacity = '0';
   setTimeout(() => { img.src = PRODUCT_IMAGES[state.selectedMenu]; img.style.opacity = '1'; }, 150);
 
-  // Atur Tampilan Menu Saus Terpisah
+  // Atur Tampilan Menu Saus
   document.getElementById('sauce-brulee-section').classList.remove('hidden');
   document.getElementById('sauce-sushi-section').classList.add('hidden');
 
@@ -741,7 +736,7 @@ function toggleSauce(sauce, btn) {
   const idx = state.selectedSauces.indexOf(sauce);
   if (idx >= 0) state.selectedSauces.splice(idx, 1);
   else state.selectedSauces.push(sauce);
-  renderOrderPage(); // refresh buttons
+  renderOrderPage(); 
 }
 
 function renderStockDisplay() {
@@ -854,14 +849,13 @@ function updateQRAndCheckoutButton() {
   }
 }
 
-// FUNGSI BARU UNTUK DOWNLOAD QR CODE
 function downloadQRCode() {
   const qrImg = document.getElementById('qr-live-img');
   if (!qrImg) return;
   const imgUrl = qrImg.src;
   const link = document.createElement('a');
   link.href = imgUrl;
-  link.download = 'QR_Payment.jpeg'; // Nama file download
+  link.download = 'QR_Payment.jpeg'; 
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -900,7 +894,6 @@ function handleOrderCheckout() {
   document.getElementById('rc-total').textContent = 'Rp ' + order.totalPrice.toLocaleString('id-ID');
   document.getElementById('success-desc').textContent = 'Pesanan lezat Anda akan segera kami racik. Mohon tunggu sebentar ya!';
   
-  // Bersihkan data setelah sukses
   state.cart = [];
   state.paymentMethod = 'QR';
   showPage('success-page');
@@ -914,7 +907,7 @@ function resetOrder() {
 }
 
 // ============================================================
-// FEEDBACK SYSTEM (Rating Default 0 & Recorded Customer)
+// FEEDBACK SYSTEM
 // ============================================================
 function renderFeedbackStars() {
   const row = document.getElementById('feedback-stars');
@@ -934,7 +927,7 @@ function setFeedbackRating(r) {
 
 function submitFeedback() {
   const msg = document.getElementById('feedback-msg').value.trim();
-  const name = document.getElementById('customer-name-input').value.trim() || "Anonim Pelanggan"; // Customer Record
+  const name = document.getElementById('customer-name-input').value.trim() || "Anonim Pelanggan"; 
   if (!msg) { alert('Silakan tulis ulasan Anda.'); return; }
 
   const fb = {
@@ -950,7 +943,7 @@ function submitFeedback() {
   sendDataToSheets('addFeedback', fb);
   
   document.getElementById('feedback-msg').value = '';
-  state.feedbackRating = 0; // Reset ke 0
+  state.feedbackRating = 0; 
   renderFeedbackStars();
   alert('Terima kasih! Ulasan & rating Anda berhasil terekam.');
 }
@@ -977,7 +970,7 @@ function setStock() {
 
 function setAdminTab(tab) {
   state.adminTab = tab;
-  state.adminPage = 1; // Reset halaman
+  state.adminPage = 1; 
   state.adminDateFilter = '';
   document.getElementById('admin-date-filter').value = '';
   ['today','feedback'].forEach(t => document.getElementById('tab-' + t).className = 'admin-tab');
@@ -1031,7 +1024,6 @@ function renderAdminList() {
     return;
   }
 
-  // LOGIKA PAGINATION
   const itemsPerPage = 5;
   const totalPages = Math.ceil(orders.length / itemsPerPage) || 1;
   const start = (state.adminPage - 1) * itemsPerPage;
@@ -1052,7 +1044,6 @@ function renderAdminList() {
     </div>
   `).join('');
 
-  // Kontrol Pagination
   html += `
     <div class="pagination-controls">
       <button onclick="changeAdminPage(-1)" ${state.adminPage === 1 ? 'disabled' : ''}>Prev</button>
@@ -1073,9 +1064,8 @@ function reloadLogos() { document.getElementById('quota-banner').classList.add('
 // INIT
 // ============================================================
 loadFromStorage();
-fetchFromSheets(); // Mengembalikan fungsi pengambilan Google Sheets asli Anda
+fetchFromSheets(); 
 
-// Set empty 0 rating on init
 renderFeedbackStars();
 </script>
 </body>
