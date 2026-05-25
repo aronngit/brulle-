@@ -396,6 +396,14 @@
           </div>
         </div>
 
+        <div id="sauce-sushi-section" class="hidden">
+          <div class="sauce-segment-title">Saus Khusus Hikari Sushi</div>
+          <div class="sauce-grid">
+            <button class="sauce-btn" data-sauce="Saus Mayonais" onclick="toggleSauce('Saus Mayonais', this)">Saus Mayonais</button>
+            <button class="sauce-btn" data-sauce="Saus Mentai" onclick="toggleSauce('Saus Mentai', this)">Saus Mentai</button>
+          </div>
+        </div>
+
         <div class="quantity-row" style="margin-top:16px;">
           <div class="section-label" style="margin-bottom:0;">Tentukan Jumlah</div>
           <div class="stock-badge" id="stock-display" style="display:none; color:var(--primary); font-weight:700; font-size:12px;"></div>
@@ -428,9 +436,10 @@
 
     <div style="padding: 0 24px 10px;">
       <div class="section-label">Metode Pembayaran</div>
-      <div class="menu-tabs" id="payment-tabs" style="grid-template-columns: 1fr 1fr;">
+      <div class="menu-tabs" id="payment-tabs" style="grid-template-columns: 1fr 1fr 1fr;">
         <button class="menu-tab active" onclick="selectPayment('QR', this)">QRIS (Tampil QR)</button>
         <button class="menu-tab" onclick="selectPayment('Tunai', this)">Tunai (Cash)</button>
+        <button class="menu-tab" onclick="selectPayment('Voucher', this)">Voucher</button>
       </div>
     </div>
 
