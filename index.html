@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brulee Bomb x Hikari Sushi</title>
+  <title>Brulee Bomb</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -207,7 +207,7 @@
     #product-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
     .product-body { padding: 32px; }
 
-    .menu-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+    .menu-tabs { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 24px; }
     .menu-tab {
       padding: 12px 8px; border-radius: 1rem; border: 2px solid #e7e5e4; background: #fff;
       font-weight: 900; font-size: 10px; text-transform: uppercase; cursor: pointer; color: #57534e;
@@ -322,11 +322,8 @@
       <div class="logo-circle yellow logo-glow">
         <img id="login-logo-brulee" src="logo bom.jpeg" alt="Brulee Bomb Logo">
       </div>
-      <div class="logo-circle white">
-        <img id="login-logo-hikari" src="logosusi.jpeg" alt="Hikari Sushi Logo">
-      </div>
     </div>
-    <h1 style="font-size:26px;font-weight:900;margin-bottom:8px;">Brulee Bomb x Hikari Sushi</h1>
+    <h1 style="font-size:26px;font-weight:900;margin-bottom:8px;">Brulee Bomb</h1>
     <p style="color:#78716c;margin-bottom:32px;font-weight:600;">Please select your login type</p>
 
     <div id="login-selection">
@@ -343,7 +340,7 @@
 
       <div class="brand-detail-box">
         <div class="brand-detail-title">📋 Brand Detail</div>
-        <p style="font-size:12px; color:#57534e; font-weight:600;">Menghadirkan kolaborasi mahakarya kuliner premium Brulee Bomb dan kreasi unik Hikari Sushi untuk menemani waktu santai Anda.</p>
+        <p style="font-size:12px; color:#57534e; font-weight:600;">Menghadirkan mahakarya kuliner premium Brulee Bomb untuk menemani waktu santai Anda.</p>
       </div>
     </div>
 
@@ -403,8 +400,6 @@
         <div class="section-label">Pilih Menu Utama</div>
         <div class="menu-tabs">
           <button class="menu-tab active" onclick="selectMenu('Brulee Bomb',this)">Brulee Bomb</button>
-          <button class="menu-tab" onclick="selectMenu('Hikari Sushi',this)">Hikari Sushi</button>
-          <button class="menu-tab" onclick="selectMenu('Bundle',this)">Bundle Spesial</button>
         </div>
 
         <div class="product-title-row">
@@ -474,7 +469,12 @@
 
     <div id="qr-display-section" class="qr-container">
       <div style="font-size:12px; font-weight:900; color:var(--primary); margin-bottom:8px;">SCAN QR UNTUK BAYAR</div>
-      <img id="qr-live-img" src="qr.jpeg" alt="QRIS Pembayaran" style="width:350px; height:350px; object-fit:contain;" />
+      <img id="qr-live-img" src="qr.jpeg" alt="QRIS Pembayaran" style="width:430px; height:430px; object-fit:contain;" />
+      
+      <button class="btn-primary" onclick="alert('Silakan pindai kode QR di atas untuk menyelesaikan transaksi Anda.')" style="margin-top: 15px; font-size: 14px; padding: 12px;">
+        Konfirmasi Pembayaran QR
+      </button>
+
       <button class="btn-outline download-btn" onclick="downloadQRCode()" style="width: auto; padding: 10px 20px; font-size: 14px; margin-top: 10px;">
         Download QR
       </button>
@@ -489,7 +489,7 @@
     <div style="padding: 0 24px 32px;">
       <div style="background:#fff; padding:20px; border-radius:1.5rem; border:2px solid #e7e5e4;">
         <div class="keunggulan-title">Mengapa Memilih Kami?</div>
-        <p class="keunggulan-teks">Rasakan ledakan keju mozarella premium dalam setiap balutan Brulee Bomb krispi kami, atau nikmati kelembutan perpaduan Hikari Sushi yang diolah dari bahan segar pilihan. Pengalaman rasa yang diracik khusus untuk memuaskan lidah Anda!</p>
+        <p class="keunggulan-teks">Rasakan ledakan keju mozarella premium dalam setiap balutan Brulee Bomb krispi kami. Pengalaman rasa yang diracik khusus untuk memuaskan lidah Anda!</p>
       </div>
     </div>
 
@@ -617,7 +617,6 @@ let state = {
   purchaseHistory: [],
   feedbacks: [],
   logoImage: 'logo bom.jpeg',
-  hikariLogo: 'logosusi.jpeg',
   aiCampusLogo: 'sttslogo.jpeg',
   isttsLogo: 'mbdlogo.jpeg',
   productImage: 'brulle.png',
@@ -626,13 +625,11 @@ let state = {
   paymentMethod: 'QR'
 };
 
-const MENU_PRICES = { 'Brulee Bomb': 10000, 'Hikari Sushi': 8000, 'Bundle': 18000 };
+const MENU_PRICES = { 'Brulee Bomb': 10000 };
 const MENU_SUBTITLES = {
-  'Brulee Bomb': 'Cheese & Sausage Filled',
-  'Hikari Sushi': 'Sushi berisi ayam nugget dan timun', // Menjaga sesuai Ledger & Original
-  'Bundle': '1 Porsi Brulee Bomb + 1 Porsi Hikari Sushi'
+  'Brulee Bomb': 'Cheese & Sausage Filled'
 };
-const PRODUCT_IMAGES = { 'Brulee Bomb': 'brulle.png', 'Hikari Sushi': 'sushi.png', 'Bundle': 'combo.png' };
+const PRODUCT_IMAGES = { 'Brulee Bomb': 'brulle.png' };
 
 function saveToStorage() {
   try {
@@ -707,11 +704,6 @@ function doLogout() {
 // ORDER PAGE LOGIC (CART & QR)
 // ============================================================
 function renderOrderPage() {
-  // Pengaturan logo di header tidak lagi menggunakan fungsi ini karena menggunakan tata letak div baru di HTML
-  // document.getElementById('istts-logo').src = state.isttsLogo;
-  // document.getElementById('header-logo-brulee').src = state.logoImage;
-  // document.getElementById('aicampus-logo').src = state.aiCampusLogo;
-
   document.getElementById('menu-title').textContent = state.selectedMenu;
   document.getElementById('menu-subtitle').textContent = MENU_SUBTITLES[state.selectedMenu];
   document.getElementById('price-display').textContent = 'Rp ' + MENU_PRICES[state.selectedMenu].toLocaleString('id-ID');
@@ -721,16 +713,8 @@ function renderOrderPage() {
   setTimeout(() => { img.src = PRODUCT_IMAGES[state.selectedMenu]; img.style.opacity = '1'; }, 150);
 
   // Atur Tampilan Menu Saus Terpisah
-  if (state.selectedMenu === 'Brulee Bomb') {
-    document.getElementById('sauce-brulee-section').classList.remove('hidden');
-    document.getElementById('sauce-sushi-section').classList.add('hidden');
-  } else if (state.selectedMenu === 'Hikari Sushi') {
-    document.getElementById('sauce-brulee-section').classList.add('hidden');
-    document.getElementById('sauce-sushi-section').classList.remove('hidden');
-  } else { // Bundle show both
-    document.getElementById('sauce-brulee-section').classList.remove('hidden');
-    document.getElementById('sauce-sushi-section').classList.remove('hidden');
-  }
+  document.getElementById('sauce-brulee-section').classList.remove('hidden');
+  document.getElementById('sauce-sushi-section').classList.add('hidden');
 
   // Highlight tombol saus yang aktif
   document.querySelectorAll('.sauce-btn').forEach(btn => {
@@ -795,7 +779,7 @@ function addToCart() {
   const name = document.getElementById('customer-name-input').value.trim();
   if (!name) { alert('Tolong lengkapi Identitas Pemesan terlebih dahulu.'); return; }
 
-  const stockNeeded = state.selectedMenu === 'Bundle' ? state.quantity * 2 : state.quantity;
+  const stockNeeded = state.quantity;
   if (state.dailyStock !== null && stockNeeded > state.dailyStock) {
     alert('Maaf, kuota porsi harian tidak mencukupi sisa pesanan ini.'); return;
   }
@@ -806,7 +790,7 @@ function addToCart() {
     qty: state.quantity,
     sauces: [...state.selectedSauces],
     price: price * state.quantity,
-    profit: state.quantity * (price - (state.selectedMenu === 'Bundle' ? 12000 : 6000))
+    profit: state.quantity * (price - 6000)
   };
 
   state.cart.push(item);
