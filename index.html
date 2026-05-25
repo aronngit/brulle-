@@ -11,10 +11,10 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --primary: #f39c12; /* Warna diubah ke Oranye */
-      --secondary: #e67e22; /* Oranye gelap, menghilangkan nuansa merah */
+      --primary: #f39c12; /* Warna Oranye */
+      --secondary: #e67e22; /* Oranye gelap */
       --accent: #f1c40f;
-      --bg-cream: #fffaf0; /* Cream yang lebih cerah, tidak abu-abu */
+      --bg-cream: #fffaf0; /* Cream cerah */
       --text-main: #1c1917;
       --radius-xl: 3rem;
       --radius-lg: 2rem;
@@ -37,7 +37,7 @@
     }
     .page-inner {
       width: 100%;
-      max-width: 480px; /* Lebih responsif untuk mobile/tablet */
+      max-width: 480px; 
       min-height: 100vh;
       background: var(--bg-cream);
       position: relative;
@@ -140,7 +140,6 @@
     @keyframes scaleIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
     .anim-fadeup { animation: fadeInUp 0.4s ease both; }
     .anim-scalein { animation: scaleIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both; }
-    .pulse { animation: pulse 2s ease-in-out infinite; }
 
     /* ---- NOTIFICATION BANNER ---- */
     #quota-banner {
@@ -162,7 +161,6 @@
     .logo-circle { width: 80px; height: 80px; border-radius: 9999px; overflow: hidden; display: flex; align-items: center; justify-content: center;}
     .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
     .logo-circle.yellow { background: #FFEC3D; }
-    .logo-circle.white { background: #fff; border: 2px solid #e7e5e4; }
 
     /* BRAND DETAIL CARD DI HALAMAN DEPAN */
     .brand-detail-box {
@@ -175,22 +173,7 @@
        ORDER PAGE HEADER
     ================================ */
     #order-page .header-section { padding: 48px 24px 24px; position: relative; text-align: center; }
-    .header-logos { display: flex; justify-content: center; gap: 16px; position: relative; z-index: 2; }
-    .header-logo-circle { width: 96px; height: 96px; border-radius: 9999px; overflow: hidden; }
-    .header-logo-circle.yellow { background: #FFEC3D; }
-    .header-logo-circle.yellow img { width:100%; height:100%; object-fit: cover; }
-    .header-logo-circle.white { background: #fff; border: 2px solid #e7e5e4; }
-    .header-logo-circle.white img { width:100%; height:100%; object-fit:cover; }
-
-    .side-logos-left { position: absolute; top: 40px; left: 24px; z-index: 10; display: flex; flex-direction: column; gap: 10px; }
-    /* LOGO AI CAMPUS & MBD DIBESARKAN */
-    .side-logo-box {
-      width: 64px; height: 64px; background: #fff; border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1); border: 1px solid #e7e5e4; overflow: hidden;
-      display: flex; align-items: center; justify-content: center; padding: 4px;
-    }
-    .side-logo-box img { width:100%; height:100%; object-fit: contain; }
-
+    
     .side-actions-right { position: absolute; top: 48px; right: 24px; z-index: 10; display: flex; flex-direction: column; gap: 8px; }
     .icon-btn {
       width: 38px; height: 38px; background: rgba(255,255,255,0.85); border-radius: 9999px;
@@ -247,7 +230,6 @@
 
     .payment-section { padding: 0 24px 32px; }
 
-    /* KEUNGGULAN DIBESARKAN */
     .keunggulan-teks { font-size: 15px; line-height: 1.6; color: #57534e; }
     .keunggulan-title { font-size: 16px; font-weight: 900; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; }
 
@@ -282,14 +264,12 @@
     #admin-page { padding: 0 24px 80px; }
     .admin-header { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 48px; margin-bottom: 32px; }
     
-    /* LOGOUT BUTTON MERAH */
     .logout-btn { background: #ef4444; color: #fff; border: none; border-radius: 9999px; padding: 8px 16px; font-weight: 700; font-size: 13px; cursor: pointer; }
     
     .admin-control-card { background: #fff; border-radius: 2rem; border: 1px solid #e7e5e4; padding: 24px; margin-bottom: 24px; }
     .admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
     .admin-tab { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid #e7e5e4; background: #fff; font-weight: 700; font-size: 13px; cursor: pointer; color: #a8a29e; }
     .admin-tab.active-today { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .admin-tab.active-history { background: var(--secondary); color: #fff; border-color: var(--secondary); }
     .admin-tab.active-feedback { background: var(--primary); color: #fff; border-color: var(--primary); }
     .order-admin-card { background: #fff; border-radius: 1.5rem; border: 1px solid #e7e5e4; padding: 16px; margin-bottom: 12px; }
 
@@ -297,13 +277,7 @@
     .pagination-controls button { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 700;}
     .pagination-controls button:disabled { background: #d6d3d1; cursor: not-allowed; }
 
-    /* ===============================
-       MODAL
-    ================================ */
-    .modal-overlay { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; }
-    .modal-box { background: #fff; border-radius: var(--radius-xl); padding: 32px; max-width: 380px; width: 100%; border: 4px solid #fff; }
-
-    /* GAYA BARU UNTUK HEADER LOGOS YANG DIPESAN */
+    /* GAYA LOGO HEADER */
     .main-logos-container { display: flex; justify-content: center; align-items: center; gap: 20px; position: relative; z-index: 2; margin-bottom: 20px; }
     .main-logo-item { border-radius: 9999px; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     .main-logo-item img { width: 100%; height: 100%; object-fit: contain; }
@@ -415,17 +389,10 @@
 
         <div id="sauce-brulee-section">
           <div class="sauce-segment-title">Saus Khusus Brulee Bomb</div>
-          <div class="sauce-grid">
+          <div class="sauce-grid" style="grid-template-columns: 1fr 1fr 1fr;">
             <button class="sauce-btn" data-sauce="Saus Sambal" onclick="toggleSauce('Saus Sambal', this)">Saus Sambal</button>
             <button class="sauce-btn" data-sauce="Saus Tomat" onclick="toggleSauce('Saus Tomat', this)">Saus Tomat</button>
-          </div>
-        </div>
-
-        <div id="sauce-sushi-section" class="hidden">
-          <div class="sauce-segment-title">Saus Khusus Hikari Sushi</div>
-          <div class="sauce-grid">
             <button class="sauce-btn" data-sauce="Saus Mayonais" onclick="toggleSauce('Saus Mayonais', this)">Saus Mayonais</button>
-            <button class="sauce-btn" data-sauce="Saus Mentai" onclick="toggleSauce('Saus Mentai', this)">Saus Mentai</button>
           </div>
         </div>
 
@@ -484,7 +451,7 @@
     <div style="padding: 0 24px 32px;">
       <div style="background:#fff; padding:20px; border-radius:1.5rem; border:2px solid #e7e5e4;">
         <div class="keunggulan-title">Mengapa Memilih Kami?</div>
-        <p class="keunggulan-teks">Rasakan ledakan keju mozarella premium dalam setiap balutan Brulee Bomb krispi kami yang diolah dari bahan segar pilihan. Pengalaman rasa yang diracik khusus untuk memuaskan lidah Anda!</p>
+        <p class="keunggulan-teks">Rasakan ledakan keju mozarella premium dalam setiap balutan Brulee Bomb kami yang diolah dari bahan segar pilihan. Pengalaman rasa yang diracik khusus untuk memuaskan lidah Anda!</p>
       </div>
     </div>
 
@@ -545,10 +512,6 @@
         <label style="font-size:11px;font-weight:700;color:#a8a29e;">Filter Tanggal</label>
         <input type="date" id="admin-date-filter" class="input-field" onchange="renderAdminList()">
         <button style="background:none; border:none; color:var(--primary); font-weight:700; font-size:12px; margin-top:8px; cursor:pointer;" onclick="clearDateFilter()">Clear Filter</button>
-      </div>
-
-      <div id="chart-container" class="admin-control-card hidden">
-        <canvas id="salesChart"></canvas>
       </div>
 
       <div id="admin-list"></div>
@@ -621,9 +584,7 @@ let state = {
 };
 
 const MENU_PRICES = { 'Brulee Bomb': 10000 };
-const MENU_SUBTITLES = {
-  'Brulee Bomb': 'Cheese & Sausage Filled'
-};
+const MENU_SUBTITLES = { 'Brulee Bomb': 'Cheese & Sausage Filled' };
 const PRODUCT_IMAGES = { 'Brulee Bomb': 'brulle.png' };
 
 function saveToStorage() {
@@ -696,7 +657,7 @@ function doLogout() {
 }
 
 // ============================================================
-// ORDER PAGE LOGIC (CART & QR)
+// ORDER PAGE LOGIC
 // ============================================================
 function renderOrderPage() {
   document.getElementById('menu-title').textContent = state.selectedMenu;
@@ -707,11 +668,6 @@ function renderOrderPage() {
   img.style.opacity = '0';
   setTimeout(() => { img.src = PRODUCT_IMAGES[state.selectedMenu]; img.style.opacity = '1'; }, 150);
 
-  // Atur Tampilan Menu Saus
-  document.getElementById('sauce-brulee-section').classList.remove('hidden');
-  document.getElementById('sauce-sushi-section').classList.add('hidden');
-
-  // Highlight tombol saus yang aktif
   document.querySelectorAll('.sauce-btn').forEach(btn => {
     if(state.selectedSauces.includes(btn.getAttribute('data-sauce'))) {
       btn.classList.add('active');
@@ -841,7 +797,6 @@ function updateQRAndCheckoutButton() {
   btnText.textContent = finalBill > 0 ? `Checkout Pesanan - Rp ${finalBill.toLocaleString('id-ID')}` : 'Checkout Pesanan';
   
   const qrDisplay = document.getElementById('qr-display-section');
-  
   if (state.paymentMethod === 'QR') {
     qrDisplay.classList.remove('hidden');
   } else {
@@ -1055,9 +1010,6 @@ function renderAdminList() {
   list.innerHTML = html;
 }
 
-// ============================================================
-// HELPERS
-// ============================================================
 function reloadLogos() { document.getElementById('quota-banner').classList.add('hidden'); }
 
 // ============================================================
@@ -1065,7 +1017,6 @@ function reloadLogos() { document.getElementById('quota-banner').classList.add('
 // ============================================================
 loadFromStorage();
 fetchFromSheets(); 
-
 renderFeedbackStars();
 </script>
 </body>
